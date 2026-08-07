@@ -1,0 +1,16 @@
+:root {
+  --z-hidden: -9999;
+  --z-background: -1;
+  --z-base: 1;
+  --z-content: 2;
+  --z-main: 3;
+  --z-sticky: 100;
+
+  --z-overlay: 1000;
+  --z-navbar: 1030;
+
+  --z-preloader: 9000;
+  --z-cursor: 9100;
+  --z-loading: 9200;
+  --z-pace: 9300;
+}

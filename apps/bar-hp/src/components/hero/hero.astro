@@ -1,0 +1,47 @@
+---
+interface Props {
+  bgImg: string;
+  sizeHeight?: string;
+}
+
+const { bgImg, sizeHeight = "" } = Astro.props;
+---
+
+<section class="hero-root" style={sizeHeight && `--hero-height: ${sizeHeight};`}>
+  <div class="hero-container"></div>
+  <div class="hero-bg" style={`background-image: url(${bgImg});`}></div>
+</section>
+
+<style>
+.hero-root {
+  color: #ffffff;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.hero-container {
+  margin-top: 24px;
+  margin-bottom: 112px;
+  width: 100%;
+}
+
+.hero-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -2;
+}
+
+@media screen and (min-width: 600px) {
+  .hero-root {
+    height: var(--hero-height);
+    min-height: 372px;
+  }
+}
+</style>

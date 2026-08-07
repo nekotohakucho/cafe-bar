@@ -1,0 +1,119 @@
+---
+interface Props {
+  total: number;
+  current?: number;
+  basePath?: string;
+  perPage: number;
+  pageRange?: number;
+}
+
+const { total, current = 1, basePath = "", perPage, pageRange = 2 } = Astro.props;
+
+const totalPages = Math.ceil(total / perPage);
+const pages = Array.from({ length: totalPages }, (_, index) => index + 1).filter(
+  (page) => Math.abs(current - page) <= pageRange,
+);
+---
+
+<nav class="pagination-root">
+  <div class="pagination pagination-items">
+    {current > 1 && (
+    <span class="pagination-item">
+      <a href={`${basePath}/page/${current - 1}`} class="pagination-button">
+        <i class="fas fa-angle-left"></i>
+      </a>
+    </span>
+    )}
+
+    {total > perPage && pages.map((page) => (
+    <span class="pagination-item">
+      <a href={`${basePath}/page/${page}`} class:list={["pagination-button", page === current && "is-current"]}>
+        {page}
+      </a>
+    </span>
+    ))}
+
+    {current < totalPages && (
+    <span class="pagination-item">
+      <a href={`${basePath}/page/${current + 1}`} class="pagination-button">
+        <i class="fas fa-angle-right"></i>
+      </a>
+    </span>
+    )}
+  </div>
+</nav>
+
+<style>
+.pagination-root {
+  padding: 16px 0;
+}
+
+.pagination-items {
+  display: flex;
+  width: max-content;
+  margin: 80px auto 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-item {
+  margin: 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination-button {
+  border: 1px solid #997442;
+  border-radius: 3px;
+  display: flex;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  color: #997442;
+  text-decoration: none;
+  transition: all 0.5s 0s ease;
+  font-weight: bold;
+  font-size: 18px;
+  background: none;
+  cursor: pointer;
+}
+
+.pagination-button.is-current {
+  background: #997442;
+  color: #fff;
+}
+
+.pagination-button:hover {
+  background: #997442;
+  color: #fff;
+}
+
+.pagination-button:active {
+  background: none;
+  transition: none;
+}
+
+@media screen and (max-width: 767px) {
+  .pagination-item {
+    margin: 0 6px;
+  }
+
+  .pagination-button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .pagination-item {
+    margin: 0 4px;
+  }
+
+  .pagination-button {
+    width: 34px;
+    height: 34px;
+  }
+}
+</style>

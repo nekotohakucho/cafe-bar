@@ -1,0 +1,22 @@
+---
+import { getTerms, unwrapOrThrow } from "../../api";
+
+interface Props {
+  headingText?: string;
+  headingClassName?: string;
+}
+
+const { headingText = "Categories", headingClassName = "heading h5" } = Astro.props;
+
+const terms = unwrapOrThrow(await getTerms("category"));
+---
+
+<div class="BlogCategoryMenu">
+  <div class={headingClassName}>{headingText}</div>
+  <ul class="category-list d-flex d-lg-block flex-wrap">
+    <li class="category-list-block"><a href="/blog">All</a></li>
+    {terms.map((term) => (
+    <li class="category-list-block"><a href={`/category/${term.slug}`}>{term.label}</a></li>
+    ))}
+  </ul>
+</div>

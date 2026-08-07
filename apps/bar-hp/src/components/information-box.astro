@@ -1,0 +1,18 @@
+---
+import type { PortableTextBlock } from "emdash/ui";
+import { PortableText } from "emdash/ui";
+
+interface Props {
+  title: string;
+  body?: PortableTextBlock[];
+}
+
+const { title, body } = Astro.props;
+---
+
+<div>
+  <div class="title mb-10 fw-700">{title}</div>
+  <div class="cafebar__news__text__bodycopy bodycopy">
+    <PortableText value={body} />
+  </div>
+</div>

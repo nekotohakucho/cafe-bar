@@ -1,0 +1,51 @@
+---
+---
+
+<div id="mouse-stoker">
+  <div class="mouse-cursor cursor-outer"></div>
+  <div class="mouse-cursor cursor-inner"></div>
+</div>
+
+<script>
+const mouseCursor = () => {
+  const cursorInner = document.querySelector<HTMLElement>(".cursor-inner");
+  const cursorOuter = document.querySelector<HTMLElement>(".cursor-outer");
+  const stoker = document.getElementById("mouse-stoker");
+  if (!cursorInner || !cursorOuter || !stoker) {
+    return;
+  }
+
+  window.addEventListener("mousemove", (event) => {
+    const transform = `translate(${event.clientX}px, ${event.clientY}px)`;
+    cursorOuter.style.transform = transform;
+    cursorInner.style.transform = transform;
+  });
+
+  const setHover = (isHover: boolean) => {
+    cursorInner.classList.toggle("cursor-hover", isHover);
+    cursorOuter.classList.toggle("cursor-hover", isHover);
+  };
+
+  const hoverTargets = document.querySelectorAll<HTMLElement>("a, .cursor-pointer");
+  for (const target of hoverTargets) {
+    target.addEventListener("mouseenter", () => setHover(true));
+    target.addEventListener("mouseleave", () => setHover(false));
+    target.addEventListener("mouseup", () => setHover(false));
+  }
+
+  cursorInner.style.visibility = "visible";
+  cursorOuter.style.visibility = "visible";
+
+  const iframe = document.querySelector("iframe");
+  if (iframe) {
+    iframe.addEventListener("mouseover", () => {
+      stoker.style.opacity = "0";
+    });
+    iframe.addEventListener("mouseleave", () => {
+      stoker.style.opacity = "1";
+    });
+  }
+};
+
+mouseCursor();
+</script>

@@ -1,0 +1,42 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  title: string;
+  description: string;
+}
+
+const { src, alt, width, height, title, description } = Astro.props;
+---
+
+<div class="img mb-4">
+  <div class="img mb-4 position-relative">
+    <img src={src} alt={alt} width={width} height={height}>
+    <div class="menu-photo-caption">
+      <div>
+        <div class="h6">{title}</div>
+        <p class="h6">{description}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.menu-photo-caption {
+  position: absolute;
+  text-align: left;
+  background: #00000080;
+  width: 100%;
+  height: auto;
+  padding: 1.25rem;
+  margin: 0;
+  bottom: 6px;
+}
+</style>

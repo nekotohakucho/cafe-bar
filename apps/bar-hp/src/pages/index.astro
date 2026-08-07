@@ -1,0 +1,217 @@
+---
+import { PortableText } from "emdash/ui";
+import { ResultAsync } from "neverthrow";
+
+import { getCollection, getShopInfo, unwrapOrThrow } from "../api";
+import Popup from "../components/popup/popup.astro";
+
+import Base from "../layouts/Base.astro";
+
+import "./homepage.css";
+
+const [{ entries: informations }, shopInfo] = unwrapOrThrow(
+  await ResultAsync.combine([
+    getCollection("information", {
+      status: "published",
+      limit: 1,
+      orderBy: { published_at: "desc" },
+    }).andTee(({ cacheHint }) => Astro.cache.set(cacheHint)),
+    getShopInfo().map(({ entry }) => entry.data),
+  ]),
+);
+
+---
+
+<Base
+  title="ねこと白鳥｜沼津駅近くにあるCAFÉ＆BARとプライベートゴルフラウンジ"
+  description="沼津駅近くにある「ねこと白鳥-CAFÉ&BAR」と最新ゴルフシミュレーターを備えたプライベートゴルフラウンジ「N&H GOLF CLUB」の紹介します。"
+  image="/img/cafebar/OGP-image.jpg"
+  pageName="top"
+>
+  <section class="top__mainvisual">
+    <div class="container-fluid p-0">
+      <div
+        class="row justify-content-center align-items-start align-items-sm-center"
+        style="height: 100vh; min-height: 500px;"
+      >
+        <div class="col-12">
+          <div class="top__mainvisual__title__wrapper">
+            <h1 class="top__mainvisual__title">
+              <img class="top__golf__title__image" src="/img/top/top_logo.svg" alt="ねこと白鳥" width="490" height="371">
+            </h1>
+            <div class="top__mainvisual__business-area">
+              <span class="d-block d-sm-inline-block"><span class="d-inline d-sm-none">- </span>喫茶&BAR</span><span
+                class="d-none d-sm-inline"
+              >
+                /
+              </span><span class="d-block d-sm-inline-block"
+                ><span class="d-inline d-sm-none">- </span>シミュレーションゴルフ</span
+              ><span class="d-none d-sm-inline"> / </span><span class="d-block d-sm-inline-block"
+                ><span class="d-inline d-sm-none">- </span>BARスイーツ</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {informations.map((information) => (
+    <section class="top__mainvisual__news">
+      <div class="top__mainvisual__news__inner">
+        <h2 class="top__mainvisual__news__title">NEWS</h2>
+        <p class="top__mainvisual__news__content-title">{information.data.title}</p>
+        <div class="top__mainvisual__news__content-body">
+          <PortableText value={information.data.body} />
+        </div>
+      </div>
+    </section>
+    ))}
+  </section>
+
+  <section class="top__golf">
+    <div class="top__golf__header container-fluid p-0">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="top__golf__title">
+            <img
+              class="top__golf__title__image"
+              src="/img/top/golf_logo.svg"
+              alt="N&H GOLF Private Golf Lounge"
+              width="322"
+              height="237"
+            >
+          </h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="top__golf__body">
+      <div class="top__golf__body__inner">
+        <div class="top__golf__body__image"></div>
+        <h3 class="top__golf__body__topcopy">
+          プライベートゴルフラウンジ<br>
+          2023年4月 OPEN<br>
+          沼津駅南口
+        </h3>
+        <p class="top__golf__body__text">
+          最先端の本格ゴルフシミュレーター最上位機種導入<br>
+          あなただけの完全プライベートのゴルフ空間で快適にお楽しみください
+        </p>
+        <a href={shopInfo.golf_url} class="top__golf__body__link-button butn">
+          <span>Information ＞</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="top__cafebar">
+    <div class="top__cafebar__contents-box">
+      <div class="container-fluid p-0">
+        <div
+          class="row justify-content-center align-items-center"
+          style="height: 100vh; min-height: 500px; padding: 5vw;"
+        >
+          <div class="col-12">
+            <h2 class="top__cafebar__title">
+              <span style="font-size: 0.25em;">喫茶 & BAR</span><br>
+              ねこ<span style="font-size: 0.75em;">と</span>白鳥
+            </h2>
+
+            <p class="top__cafebar__body__text">
+              昭和の名店「純喫茶・白鳥」の面影を味わえる喫茶＆BAR。
+              アルコール類をはじめ、オリジナルブレンドのコーヒーやノンアルコールカクテル、サンドイッチやキッシュなどの軽食やスイーツなどご用意しています。
+              夜の喫茶店として、本格的なバーとして、カジュアル・オーセンティック問わず楽しめる飲食と空間の提供をしています。
+            </p>
+            <div class="top__cafebar__body__button-wrapper">
+              <a href="/cafebar" class="top__cafebar__body__link-button butn"><span>ABOUT ＞</span></a>
+              <a href="/menu" class="top__cafebar__body__link-button butn"><span>MENU ＞</span></a>
+              <a href="/blog" class="top__cafebar__body__link-button butn"><span>BLOG ＞</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="top__cafebar__bg-filter"></div>
+  </section>
+
+  <section class="top__event">
+    <div class="top__event__contents-box">
+      <div class="container-fluid p-0">
+        <div class="row justify-content-center align-items-center">
+          <div class="top__event__info-box col-12 col-lg-7 col-xl-6">
+            <h2 class="top__event__title">
+              SPACE <br>
+              RENTAL
+            </h2>
+
+            <p class="top__event__body__text">
+              音楽イベントやアート、写真、デザイン、ファッションなどの展示会、ギャラリー会場やブライダルパーティー会場として当店をご活用いただけます。
+            </p>
+            <div class="top__event__body__button-wrapper">
+              <a href="/event" class="top__event__body__link-button butn bord"><span>Information ＞</span></a>
+            </div>
+          </div>
+          <div class="top__event__image-box col-12 col-lg-5 col-xl-6">
+            <div class="top__section-image top__section-image--event"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="top__billiard">
+    <div class="top__billiard__contents-box">
+      <div class="container-fluid p-0">
+        <div class="row justify-content-center align-items-center">
+          <div class="top__billiard__info-box col-12 col-lg-7 col-xl-6">
+            <h2 class="top__billiard__title">BILLIARD</h2>
+
+            <p class="top__billiard__body__text">
+              広くゆったりした店内にはビリヤードスペースをご用意しています。なかにはプレイを目当てに来られる方もいらっしゃいます。喫茶&BAR「ねこと白鳥」での楽しみ方は一つではありません。ぜひご友人とカクテルを飲みながらお楽しみください。
+            </p>
+            <div class="top__billiard__body__button-wrapper">
+              <a href="/billiard" class="top__billiard__body__link-button butn bord"><span>Information ＞</span></a>
+            </div>
+          </div>
+          <div class="top__billiard__image-box col-12 col-lg-5 col-xl-6">
+            <div class="top__section-image top__section-image--billiard"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Popup>
+    <img
+      src="/img/hurusatogo.jpg"
+      width="375"
+      height="250"
+      alt="現地で寄付するふるさと納税で沼津市を応援！喫茶＆BAR ねこと白鳥では飲食代をふるさと納税でお支払いできます 飲食・レジャー専門観光型ふるさと納税 ふるさとGo"
+    >
+  </Popup>
+</Base>
+
+<style>
+.top__section-image {
+  width: 100vw;
+  height: calc(100vw * 0.666666);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-color: #272631;
+  background-size: cover;
+}
+
+.top__section-image--event {
+  background-image: url(/img/top/event.jpg);
+}
+
+.top__section-image--billiard {
+  background-image: url(/img/top/billiard.jpg);
+}
+
+@media screen and (min-width: 768px) {
+  .top__section-image {
+    height: calc(66.6666vw * 0.666666);
+  }
+}
+</style>

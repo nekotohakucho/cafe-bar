@@ -1,0 +1,125 @@
+---
+import Logo from "../logo.astro";
+
+export interface NavItem {
+  label: string;
+  href: string;
+  classNames: string[];
+  target?: string;
+  children: NavItem[];
+}
+
+interface Props {
+  className?: string;
+  offset?: number;
+  items: NavItem[];
+}
+
+const { className = "", offset = 300, items } = Astro.props;
+---
+
+<nav class:list={["navbar", "navbar-expand-lg", "change", className]} data-offset={offset}>
+  <div class="container">
+    <a href="/cafebar" class="logo">
+      <Logo />
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="icon-bar"><i class="fas fa-bars"></i></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        {items.map(({ label, href, classNames, target, children }) => children.length > 0 ? (
+        <li class="nav-item dropdown">
+          <span class:list={["nav-link", "dropdown-toggle", ...classNames]} role="button" aria-expanded="false">{label}</span>
+          <div class="dropdown-menu">
+            {children.map((child) => (
+            <a
+              href={child.href}
+              class:list={["dropdown-item", ...child.classNames]}
+              target={child.target}
+              rel={child.target === "_blank" ? "noopener noreferrer" : undefined}
+            >{child.label}</a>
+            ))}
+          </div>
+        </li>
+        ) : (
+        <li class="nav-item">
+          <a
+            href={href}
+            class:list={["nav-link", ...classNames]}
+            target={target}
+            rel={target === "_blank" ? "noopener noreferrer" : undefined}
+          >{label}</a>
+        </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+const navbar = document.querySelector<HTMLElement>(".navbar");
+
+if (navbar) {
+  const offset = Number(navbar.dataset.offset ?? 300);
+
+  const updateNavbar = () => {
+    navbar.classList.toggle("nav-scroll", window.scrollY > offset);
+  };
+
+  updateNavbar();
+  window.addEventListener("scroll", updateNavbar, { passive: true });
+}
+
+const toggler = document.querySelector<HTMLButtonElement>(".navbar-toggler");
+const collapse = document.getElementById("navbarSupportedContent");
+
+const closeCollapse = () => {
+  collapse?.classList.remove("show-with-trans");
+  toggler?.setAttribute("aria-expanded", "false");
+};
+
+toggler?.addEventListener("click", () => {
+  const open = collapse?.classList.toggle("show-with-trans") ?? false;
+  toggler.setAttribute("aria-expanded", String(open));
+});
+
+document.querySelectorAll<HTMLElement>(".navbar-nav .dropdown-toggle").forEach((toggle) => {
+  const item = toggle.parentElement;
+  const menu = item?.querySelector<HTMLElement>(".dropdown-menu");
+
+  toggle.addEventListener("click", () => {
+    const open = item?.classList.toggle("show") ?? false;
+    menu?.classList.toggle("show", open);
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+});
+
+document.querySelectorAll(".navbar-nav .nav-link:not(.dropdown-toggle), .navbar-nav .dropdown-item").forEach((link) => {
+  link.addEventListener("click", closeCollapse);
+});
+
+document.querySelectorAll(".scroll-link").forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const target = link.getAttribute("href")?.replace("#", "");
+    if (!target) {
+      return;
+    }
+
+    const el = document.getElementById(target);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 30;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  });
+});
+</script>

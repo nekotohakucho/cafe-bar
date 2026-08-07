@@ -1,0 +1,29 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "bar-hp",
+	"main": "./src/worker.ts",
+	"compatibility_date": "2026-03-29",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "bar-hp",
+			"migrations_dir": "../../../../../../../../../../../migrations",
+			"database_id": "bf899e98-7b70-4077-8d1a-696f3c9571ff"
+		},
+	],
+	"r2_buckets": [
+		{
+			"binding": "MEDIA",
+			"bucket_name": "bar-hp",
+		},
+	],
+	"observability": {
+		"enabled": true,
+	},
+	"cache": {
+		"enabled": true,
+	},
+}

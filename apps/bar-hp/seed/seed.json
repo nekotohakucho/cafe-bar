@@ -1,0 +1,693 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "Exported Seed",
+		"description": "Exported from existing EmDash database"
+	},
+	"settings": {
+		"title": "ねこと白鳥 CAFÉ&BAR",
+		"tagline": "沼津駅近くにある CAFÉ&BAR",
+		"dateFormat": "yyyy/MM/dd",
+		"timezone": "Asia/Tokyo"
+	},
+	"collections": [
+		{
+			"slug": "articles",
+			"label": "ブログ記事",
+			"labelSingular": "ブログ記事",
+			"description": "ブログ",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search"
+			],
+			"urlPattern": "/article/{slug}",
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "cover_image",
+					"label": "カバー画像",
+					"type": "image",
+					"validation": {
+						"allowedMimeTypes": [
+							"image/"
+						]
+					}
+				},
+				{
+					"slug": "body",
+					"label": "本文",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		},
+		{
+			"slug": "information",
+			"label": "お知らせ",
+			"labelSingular": "お知らせ",
+			"description": "トップページとカフェバーページに表示するお知らせ",
+			"supports": [
+				"drafts",
+				"revisions"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "body",
+					"label": "本文",
+					"type": "portableText"
+				}
+			]
+		},
+		{
+			"slug": "legal_pages",
+			"label": "法務ページ",
+			"labelSingular": "法務ページ",
+			"description": "プライバシーポリシーや利用規約といったコンテンツを登録する",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview"
+			],
+			"urlPattern": "/legals/{slug}",
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "body",
+					"label": "本文",
+					"type": "portableText"
+				}
+			]
+		},
+		{
+			"slug": "menus",
+			"label": "飲食メニュー",
+			"labelSingular": "飲食メニュー",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "image",
+					"label": "画像",
+					"type": "image",
+					"validation": {
+						"allowedMimeTypes": [
+							"image/"
+						]
+					}
+				},
+				{
+					"slug": "describe",
+					"label": "説明",
+					"type": "string",
+					"searchable": true
+				},
+				{
+					"slug": "category",
+					"label": "カテゴリ",
+					"type": "select",
+					"required": true,
+					"validation": {
+						"options": [
+							"Wisky",
+							"Food",
+							"Sweets",
+							"Beer",
+							"Original Cocktail",
+							"Cocktail",
+							"Non-Alcohol"
+						]
+					}
+				},
+				{
+					"slug": "price",
+					"label": "価格",
+					"type": "string"
+				},
+				{
+					"slug": "order",
+					"label": "並び順",
+					"type": "integer",
+					"required": true,
+					"validation": {
+						"min": 0
+					}
+				}
+			]
+		},
+		{
+			"slug": "shop_info",
+			"label": "店舗情報",
+			"labelSingular": "店舗情報",
+			"description": "全ページのヘッダー・フッターで参照する店舗情報",
+			"supports": [
+				"revisions"
+			],
+			"fields": [
+				{
+					"slug": "store_name",
+					"label": "店舗名",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "tel",
+					"label": "電話番号",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "tel_no",
+					"label": "電話番号(リンク用)",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "working_time",
+					"label": "営業時間",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "contact_time",
+					"label": "電話受付時間",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "break_week_day",
+					"label": "定休日",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "seats",
+					"label": "席数",
+					"type": "string"
+				},
+				{
+					"slug": "reservation",
+					"label": "予約",
+					"type": "string"
+				},
+				{
+					"slug": "postal_code",
+					"label": "郵便番号",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "address_level1",
+					"label": "都道府県",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "address_level2",
+					"label": "市区町村",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "address_line1",
+					"label": "町名・番地",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "address_line2",
+					"label": "建物名・部屋番号",
+					"type": "string"
+				},
+				{
+					"slug": "map_embed_url",
+					"label": "Google Map 埋め込み URL",
+					"type": "url"
+				},
+				{
+					"slug": "golf_url",
+					"label": "ゴルフサイト URL",
+					"type": "url"
+				},
+				{
+					"slug": "online_shop_url",
+					"label": "オンラインショップ URL",
+					"type": "url"
+				},
+				{
+					"slug": "instagram",
+					"label": "Instagram",
+					"type": "url"
+				},
+				{
+					"slug": "facebook",
+					"label": "Facebook",
+					"type": "url"
+				},
+				{
+					"slug": "line",
+					"label": "LINE",
+					"type": "url"
+				}
+			]
+		}
+	],
+	"content": {
+		"legal_pages": [
+			{
+				"id": "privacy-policy",
+				"slug": "privacy-policy",
+				"status": "published",
+				"data": {
+					"title": "プライバシーポリシー",
+					"body": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "ねこと白鳥は、お客様の大事な個人情報を守るために個人情報保護法の規定に沿ったプライバシーポリシーを定め、適切に個人情報を管理、運営を致します。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "個人情報保護における基本方針"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "ねこと白鳥（以下、当店といいます）は、当店が取得した個人情報の取扱いに関し、個人情報の保護に関する法律、個人情報保護に関するガイドライン等の指針、その他個人情報保護に関する関係法令を遵守します。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "個人情報の安全管理"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店は、個人情報の保護に関して、組織的、物理的、人的、技術的に適切な対策を実施し、当店の取り扱う個人情報の漏えい、滅失又はき損の防止その他の個人情報の安全管理のために必要かつ適切な措置を講ずるものとします。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "個人情報の取得等の遵守事項"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店による個人情報の取得、利用、提供については、以下の事項を遵守します。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "1.個人情報の取得"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店は、当店が管理するインターネットによる情報提供サイト（以下「本サイト」といいます。）の運営に必要な範囲で、本サイトの一般利用者（以下「ユーザー」といいます。）又は本サイトに広告掲載を行う者（以下「掲載主」といいます。）から、ユーザー又は掲載主に係る個人情報を取得することがあります。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2.個人情報の利用目的"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店は、当店が取得した個人情報について、法令に定める場合又は本人の同意を得た場合を除き、以下に定める利用目的の達成に必要な範囲を超えて利用することはありません。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"children": [
+								{
+									"_type": "span",
+									"text": "本サイトの運営、維持、管理"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"children": [
+								{
+									"_type": "span",
+									"text": "本サイトを通じたサービスの提供及び紹介"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.個人情報の提供等"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店は、法令で定める場合を除き、本人の同意に基づき取得した個人情報を、本人の事前の同意なく第三者に提供することはありません。なお、本人の求めによる個人情報の開示、訂正、追加若しくは削除又は利用目的の通知については、法令に従いこれを行うとともに、ご意見、ご相談に関して適切に対応します。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "個人情報の利用目的の変更"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店は、前項で特定した利用目的は、予め本人の同意を得た場合を除くほかは、原則として変更しません。但し、変更前の利用目的と相当の関連性を有すると合理的に認められる範囲において、予め変更後の利用目的を公表の上で変更を行う場合はこの限りではありません。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "個人情報の第三者提供"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店は、個人情報の取扱いの全部又は一部を第三者に委託する場合、その適格性を十分に審査し、その取扱いを委託された個人情報の安全管理が図られるよう、委託を受けた者に対する必要かつ適切な監督を行うこととします。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "個人情報の取扱いの改善・見直し"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店は、個人情報の取扱い、管理体制及び取組みに関する点検を実施し、継続的に改善・見直しを行います。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "個人情報の廃棄"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "当店は、個人情報の利用目的に照らしその必要性が失われたときは、個人情報を消去又は廃棄するものとし、当該消去及び廃棄は、外部流失等の危険を防止するために必要かつ適切な方法により、業務の遂行上必要な限りにおいて行います。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "お問合せ窓口"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "ねこと白鳥\n〒410-0801\n静岡県沼津市大手町5-7-5 つるかめ仲見世ビル B1\nTel：055-962-0425"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2023年01月01日　制定"
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"shop_info": [
+			{
+				"id": "shop-info-default",
+				"slug": "default",
+				"status": "published",
+				"data": {
+					"store_name": "ねこと白鳥",
+					"tel": "055-962-0425",
+					"tel_no": "0559620425",
+					"working_time": "月〜土曜日 17:00〜24:00（LO:23:30）",
+					"contact_time": "17:00〜24:00",
+					"break_week_day": "日曜",
+					"seats": "40席",
+					"reservation": "可能",
+					"postal_code": "410-0801",
+					"address_level1": "静岡県",
+					"address_level2": "沼津市",
+					"address_line1": "大手町5-7-5",
+					"address_line2": "つるかめ仲見世ビル B1",
+					"map_embed_url": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6528.528678444401!2d138.8559883090056!3d35.100109691671086!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xdea2d6c7344671b5!2z44Gt44GT44Go55m96bOl!5e0!3m2!1sja!2sjp!4v1670316567189!5m2!1sja!2sjp",
+					"golf_url": "https://nhgolf.jp/",
+					"online_shop_url": "https://nekohaku.base.shop/",
+					"instagram": "https://www.instagram.com/nekotohakucho/",
+					"facebook": "https://www.facebook.com/BarMaltCats/",
+					"line": "https://lin.ee/EJFLTMx"
+				}
+			}
+		]
+	},
+	"defaultLocale": "en",
+	"taxonomies": [
+		{
+			"id": "tax:category",
+			"name": "category",
+			"label": "カテゴリ",
+			"labelSingular": "カテゴリ",
+			"hierarchical": false,
+			"collections": [
+				"articles"
+			],
+			"terms": [
+				{
+					"id": "term:category:bar",
+					"slug": "bar",
+					"label": "Bar"
+				},
+				{
+					"id": "term:category:event",
+					"slug": "event",
+					"label": "Event"
+				},
+				{
+					"id": "term:category:golf",
+					"slug": "golf",
+					"label": "Golf"
+				},
+				{
+					"id": "term:category:media",
+					"slug": "media",
+					"label": "Media"
+				},
+				{
+					"id": "term:category:story",
+					"slug": "story",
+					"label": "Story"
+				},
+				{
+					"id": "term:category:sweets",
+					"slug": "sweets",
+					"label": "Sweets"
+				}
+			]
+		}
+	],
+	"menus": [
+		{
+			"id": "menu:primary",
+			"name": "primary",
+			"label": "Primary Navigation",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Cafe & Bar",
+					"url": "/cafebar"
+				},
+				{
+					"type": "custom",
+					"label": "Service",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Drinks & Bites",
+							"url": "/menu"
+						},
+						{
+							"type": "custom",
+							"label": "Space Rental",
+							"url": "/event"
+						},
+						{
+							"type": "custom",
+							"label": "Billiard",
+							"url": "/billiard"
+						},
+						{
+							"type": "custom",
+							"label": "Room Golf",
+							"url": "https://nhgolf.jp/",
+							"target": "_blank"
+						},
+						{
+							"type": "custom",
+							"label": "Online Shop",
+							"url": "https://nekohaku.base.shop/",
+							"target": "_blank"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Blog",
+					"url": "/blog"
+				},
+				{
+					"type": "custom",
+					"label": "Contact",
+					"url": "/contact"
+				}
+			]
+		}
+	],
+	"widgetAreas": []
+}

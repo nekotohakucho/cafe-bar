@@ -1,0 +1,35 @@
+---
+import { getCollection, unwrapOrThrow } from "../../api";
+import BlogList from "../../components/blog/blog-list.astro";
+import { POSTS_PER_PAGE } from "../../config/blog";
+
+import Base from "../../layouts/Base.astro";
+
+const page = Number(Astro.params.page);
+if (!Number.isInteger(page) || page < 1) {
+  return Astro.redirect("/404");
+}
+
+// ページャの総ページ数を出すために全件引く。EmDash に件数だけを返す API はない。
+const { entries } = unwrapOrThrow(
+  await getCollection("articles", { status: "published", orderBy: { published_at: "desc" } }).andTee(({ cacheHint }) =>
+    Astro.cache.set(cacheHint),
+  ),
+);
+
+const offset = (page - 1) * POSTS_PER_PAGE;
+const pageEntries = entries.slice(offset, offset + POSTS_PER_PAGE);
+
+if (pageEntries.length === 0 && page > 1) {
+  return Astro.redirect("/404");
+}
+---
+
+<Base
+  title="Blog｜ねこと白鳥-CAFÉ&BAR"
+  description="「ねこと白鳥-CAFÉ&BAR」のイベントや最新情報を発信しています。積極的に情報を発信していきます。"
+  image="/img/cafebar/OGP-image.jpg"
+  navbarOffset={80}
+>
+  <BlogList entries={pageEntries} total={entries.length} current={page} perPage={POSTS_PER_PAGE} />
+</Base>

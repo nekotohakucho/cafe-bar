@@ -1,0 +1,40 @@
+---
+interface Props {
+  title: string;
+  subTitle?: string;
+  paragraph?: string;
+  className?: string;
+}
+
+const { title, subTitle, paragraph, className } = Astro.props;
+
+const titleLines = title.split("\n");
+---
+
+<section class:list={["page-header", className]}>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-md-9">
+        <div class="text-center">
+          <h1 class="text-white fw-700 page-header-title">
+            {titleLines.map((line) => (
+            <>{line}<br></>
+            ))}
+          </h1>
+          <div style="margin-top: 3.5rem;">
+            {subTitle && <h2 class="subTitle" style="font-size: 1.25rem; margin-bottom: 2rem;">{subTitle}</h2>}
+            {paragraph && <p class="paragraph text-white" style="margin-bottom: 4rem;">{paragraph}</p>}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.page-header-title {
+  margin-top: -0.75em;
+  margin-bottom: -0.75em;
+  line-height: 1.25;
+}
+</style>

@@ -1,0 +1,57 @@
+---
+import type { ContentEntry, InferCollectionData } from "emdash";
+import { Image } from "emdash/ui";
+
+import { formatDate } from "../../lib/date";
+
+interface Props {
+  entry: ContentEntry<InferCollectionData<"articles">>;
+  className?: string;
+}
+
+const { entry, className } = Astro.props;
+
+const href = `/article/${entry.id}`;
+const categories = entry.data.terms?.category ?? [];
+const title = entry.data.title.length > 100 ? `${entry.data.title.slice(0, 100)}...` : entry.data.title;
+---
+
+<div class:list={["item", className, "wow", "fadeInUp"]} data-wow-delay=".3s">
+  <div>
+    <a href={href}>
+      {entry.data.cover_image && (
+        <Image class="ArticleCard__thumbnail" image={entry.data.cover_image} alt="サムネール" />
+      )}
+    </a>
+  </div>
+  <div class="cont">
+    <div>
+      <div class="info">
+        <a href={href} class="date">
+          <span>{formatDate(entry.data.publishedAt ?? entry.data.createdAt)}</span>
+        </a>
+        <span>/</span>
+        {categories.map((category) => (<a href={`/category/${category.slug}`} class="tag"><span>#{category.label}</span></a>))}
+      </div>
+      <h2 class="blog-title">
+        <a href={href}>{title}</a>
+      </h2>
+      <div class="btn-more">
+        <a href={href} class="simple-btn">Read More</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.blog-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.ArticleCard__thumbnail {
+  object-fit: cover;
+  width: 100%;
+}
+</style>

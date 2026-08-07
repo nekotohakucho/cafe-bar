@@ -1,0 +1,116 @@
+---
+const slides = [
+  { title: "ねこと白鳥", caption: "夜の喫茶店 & 本格的なBAR", image: "/img/cafebar/features-image.webp" },
+  { title: "ねこと白鳥", caption: "夜の喫茶店 & 本格的なBAR", image: "/img/cafebar/features-image.webp" },
+  { title: "ねこと白鳥", caption: "夜の喫茶店 & 本格的なBAR", image: "/img/cafebar/features-image.webp" },
+  { title: "ねこと白鳥", caption: "夜の喫茶店 & 本格的なBAR", image: "/img/cafebar/features-image.webp" },
+];
+---
+
+<section class="imageSlider-carousel metro position-re py-4">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 no-padding">
+        <div class="swiper image-slider">
+          <div class="swiper-wrapper">
+            {slides.map((slide) => (
+            <div class="swiper-slide">
+              <div class="content wow noraidus fadeInUp" data-wow-delay=".3s">
+                <div class="item-img bg-img wow imago" style={`background-image: url(${slide.image});`}></div>
+                <div class="cont">
+                  <div class="photo-slider__color-font">{slide.title}</div>
+                  <div class="photo-slider__caption">{slide.caption}</div>
+                </div>
+              </div>
+            </div>
+            ))}
+          </div>
+
+          <div class="swiper-button-next swiper-nav-ctrl simp-next cursor-pointer">
+            <span class="simple-btn right">Next</span>
+          </div>
+          <div class="swiper-button-prev swiper-nav-ctrl simp-prev cursor-pointer">
+            <span class="simple-btn">Prev</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.imageSlider-carousel .item-img {
+  height: 33vw;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.imageSlider-carousel :global(.noraidus .cont) {
+  background: #111215d9;
+}
+
+.imageSlider-carousel :global(.noraidus .cont h4) {
+  font-size: 13px;
+}
+
+.photo-slider__color-font {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #c5a47e;
+  -webkit-text-fill-color: #c5a47e;
+  background: none;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.photo-slider__caption {
+  font-size: 17px;
+  margin: 0;
+  line-height: 1.4;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 991px) {
+  .imageSlider-carousel .item-img {
+    height: 40vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .imageSlider-carousel .item-img {
+    height: 55vw;
+  }
+  .imageSlider-carousel :global(.noraidus .cont) {
+    position: relative;
+  }
+}
+</style>
+
+<script>
+import Swiper, { Autoplay, Navigation } from "swiper";
+
+new Swiper(".image-slider", {
+  modules: [Autoplay, Navigation],
+  navigation: {
+    nextEl: ".image-slider .swiper-button-next",
+    prevEl: ".image-slider .swiper-button-prev",
+  },
+  slidesPerView: 2,
+  centeredSlides: true,
+  loop: true,
+  speed: 1000,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false,
+  },
+  breakpoints: {
+    320: { slidesPerView: 1.2, spaceBetween: 0 },
+    575: { slidesPerView: 1.2, spaceBetween: 0 },
+    767: { slidesPerView: 1.5, spaceBetween: 0 },
+    991: { slidesPerView: 1, spaceBetween: 0 },
+  },
+});
+</script>

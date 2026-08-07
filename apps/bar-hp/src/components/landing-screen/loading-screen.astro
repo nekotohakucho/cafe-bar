@@ -1,0 +1,54 @@
+---
+interface Props {
+  showLoading?: boolean;
+}
+
+const { showLoading = true } = Astro.props;
+---
+
+<div class={showLoading ? "showX" : "hideX"} data-loading-screen data-show={String(showLoading)}>
+  <div class="loading">
+    <span>L</span>
+    <span>o</span>
+    <span>a</span>
+    <span>d</span>
+    <span>i</span>
+    <span>n</span>
+    <span>g</span>
+  </div>
+  <div id="preloader"></div>
+</div>
+
+<script>
+declare const Pace: { on(event: string, cb: () => void): void; start(): void };
+
+const root = document.querySelector<HTMLElement>("[data-loading-screen]");
+const body = document.querySelector("body");
+
+if (root?.dataset.show !== "true") {
+  body?.classList.add("hideX");
+} else {
+  body?.classList.remove("hideX");
+
+  Pace.on("start", () => {
+    document.querySelector("#preloader")?.classList.remove("isdone");
+    document.querySelector(".loading")?.classList.remove("isdone");
+  });
+
+  Pace.on("done", () => {
+    document.querySelector("#preloader")?.classList.add("isdone");
+    document.querySelector(".loading")?.classList.add("isdone");
+  });
+
+  if (body?.classList.contains("pace-done")) {
+    document.querySelector("#preloader")?.classList.add("isdone");
+    document.querySelector(".loading")?.classList.add("isdone");
+  }
+
+  window.addEventListener("load", () => {
+    document.querySelector("#preloader")?.classList.add("isdone");
+    document.querySelector(".loading")?.classList.add("isdone");
+    document.querySelector(".pace-running.pace-running")?.classList.remove("pace-running");
+  });
+}
+</script>

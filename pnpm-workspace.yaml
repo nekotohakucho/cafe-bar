@@ -1,0 +1,40 @@
+packages:
+  - apps/*
+  - packages/*
+
+onlyBuiltDependencies:
+  - '@fortawesome/fontawesome-free'
+  - better-sqlite3
+  - esbuild
+  - sharp
+  - swiper
+  - tsparticles
+  - workerd
+
+catalog:
+  '@astrojs/check': '^0.9.7'
+  '@astrojs/cloudflare': '^14.0.0'
+  '@astrojs/react': '^6.0.0'
+  '@biomejs/biome': '2.5.6'
+  '@cloudflare/workers-types': '^4.20260305.1'
+  '@emdash-cms/cloudflare': '^0.30.0'
+  '@emdash-cms/plugin-forms': '^0.2.4'
+  '@emdash-cms/plugin-webhook-notifier': '^0.2.0'
+  '@fortawesome/fontawesome-free': '5.15.4'
+  '@praha/error-factory': '^1.4.1'
+  '@types/splitting': '^1.0.6'
+  'animate.css': '3.7.2'
+  'astro': '^7.0.0'
+  'bootstrap': '4.0.0'
+  'emdash': '^0.30.0'
+  'ionicons': '2.0.1'
+  'neverthrow': '^8.2.0'
+  'pace-js': '^1.2.4'
+  'pixeden-stroke-7-icon': '1.2.3'
+  'react': '19.2.4'
+  'react-dom': '19.2.4'
+  'splitting': '^1.1.0'
+  'swiper': '^7.3.0'
+  'tsparticles': '^1.43.1'
+  'wow.js': '^1.2.2'
+  'wrangler': '^4.99.0'

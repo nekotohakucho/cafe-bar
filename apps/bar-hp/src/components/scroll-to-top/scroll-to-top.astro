@@ -1,0 +1,50 @@
+---
+---
+
+<div class="progress-wrap cursor-pointer">
+  <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"></path>
+  </svg>
+</div>
+
+<script>
+const scrollToTop = () => {
+  const progressPath = document.querySelector<SVGPathElement>(".progress-wrap path");
+  const progressWrap = document.querySelector<HTMLElement>(".progress-wrap");
+  if (!progressPath || !progressWrap) {
+    return;
+  }
+
+  const pathLength = progressPath.getTotalLength();
+  const style = progressPath.style as CSSStyleDeclaration & {
+    WebkitTransition: string;
+  };
+
+  style.transition = style.WebkitTransition = "none";
+  style.strokeDasharray = `${pathLength} ${pathLength}`;
+  style.strokeDashoffset = `${pathLength}`;
+  progressPath.getBoundingClientRect();
+  style.transition = style.WebkitTransition = "stroke-dashoffset 10ms linear";
+
+  const updateProgress = () => {
+    const scroll = window.pageYOffset;
+    const height = document.documentElement.scrollHeight - window.innerHeight;
+    style.strokeDashoffset = `${pathLength - (scroll * pathLength) / height}`;
+  };
+
+  updateProgress();
+  window.addEventListener("scroll", updateProgress);
+
+  const offset = 150;
+  window.addEventListener("scroll", () => {
+    progressWrap.classList.toggle("active-progress", window.pageYOffset > offset);
+  });
+
+  progressWrap.addEventListener("click", (event) => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+};
+
+scrollToTop();
+</script>

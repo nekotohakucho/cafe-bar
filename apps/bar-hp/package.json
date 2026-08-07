@@ -1,0 +1,50 @@
+{
+  "name": "bar-hp",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "wrangler deploy",
+    "typecheck": "astro check",
+    "lint": "biome check src",
+    "format": "biome format --write src"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "catalog:",
+    "@astrojs/react": "catalog:",
+    "@emdash-cms/cloudflare": "catalog:",
+    "@emdash-cms/plugin-forms": "catalog:",
+    "@emdash-cms/plugin-webhook-notifier": "catalog:",
+    "@fortawesome/fontawesome-free": "catalog:",
+    "@praha/error-factory": "catalog:",
+    "emdash-plugin-worker-mailer": "workspace:*",
+    "animate.css": "catalog:",
+    "astro": "catalog:",
+    "bootstrap": "catalog:",
+    "emdash": "catalog:",
+    "ionicons": "catalog:",
+    "neverthrow": "catalog:",
+    "pace-js": "catalog:",
+    "pixeden-stroke-7-icon": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "splitting": "catalog:",
+    "swiper": "catalog:",
+    "tsparticles": "catalog:",
+    "wow.js": "catalog:"
+  },
+  "devDependencies": {
+    "@astrojs/check": "catalog:",
+    "@biomejs/biome": "catalog:",
+    "@cloudflare/workers-types": "catalog:",
+    "@types/splitting": "catalog:",
+    "wrangler": "catalog:"
+  },
+  "emdash": {
+    "label": "ねこと白鳥 CAFÉ&BAR",
+    "seed": "seed/seed.json"
+  }
+}

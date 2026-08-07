@@ -1,0 +1,17 @@
+@layer page {
+  .contact-tel-card {
+    width: 100%;
+    height: auto;
+    background: #ffffff25;
+    border-radius: 4px;
+    text-align: center;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media screen and (min-width: 576px) {
+    .contact-tel-card {
+      padding: 2rem;
+    }
+  }
+}

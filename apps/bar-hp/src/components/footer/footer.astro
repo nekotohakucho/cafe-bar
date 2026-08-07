@@ -1,0 +1,103 @@
+---
+import type { Address } from "../../types";
+
+import Logo from "../logo.astro";
+import "./footer.css";
+
+interface Props {
+  tel: string;
+  telNo: string;
+  contactTime: string;
+  address: Address;
+  url: {
+    barSweets: string;
+    roomGolf?: string;
+    spaceRental: string;
+    billiard: string;
+    blog: string;
+  };
+  sns: {
+    instagram?: string;
+    facebook?: string;
+    line?: string;
+  };
+}
+
+const { tel, telNo, contactTime, address, url, sns } = Astro.props;
+---
+
+<footer class="sub-bg footer-root">
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="footer-box-1 col-lg-4">
+        <div class="item">
+          <div class="footer-logo text-center">
+            <div>
+              <Logo width={193} height={72} />
+            </div>
+          </div>
+          <div class="footer-social social text-center">
+            {sns?.instagram && (
+            <a href={sns.instagram} target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            )}
+            {sns?.facebook && (
+            <a href={sns.facebook} target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            )}
+            {sns?.line && <a href={sns.line} target="_blank" rel="noopener noreferrer"><i class="fab fa-line"></i></a>}
+          </div>
+        </div>
+      </div>
+      <div class="footer-box-2 col-lg-8">
+        <div class="item">
+          <ul class="footer-nav">
+            <li>
+              <a href={url.barSweets}>Bar & Sweets</a>
+            </li>
+            {url.roomGolf && (
+            <li>
+              <a href={url.roomGolf}>Room Golf</a>
+            </li>
+            )}
+            <li>
+              <a href={url.spaceRental}>Space Rental</a>
+            </li>
+            <li>
+              <a href={url.billiard}>Billiard</a>
+            </li>
+            <li>
+              <a href={url.blog}>Blog</a>
+            </li>
+          </ul>
+          <ul class="footer-info">
+            <li>
+              <span class="footer-info-icon icon pe-7s-map-marker"></span>
+              <div class="cont">
+                <p class="footer-info-label">Address</p>
+                <p>
+                  〒{address.postalCode} {address.addressLevel1}{address.addressLevel2} {address.addressLine1}
+                  {address.addressLine2}
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="footer-info-icon icon pe-7s-call"></span>
+              <div class="cont">
+                <p class="footer-info-label">Tel</p>
+                <p>
+                  <a href={`tel:${telNo}`}>{tel}</a>
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-box-3 col order-3">
+        <div class="item">
+          <div class="copy-right">
+            <p>&copy; Neko to Hakucho inc. all rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

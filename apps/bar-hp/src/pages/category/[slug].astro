@@ -1,0 +1,44 @@
+---
+import { getCollection, getTerm, NotFoundError, unwrapOrThrow } from "../../api";
+import BlogList from "../../components/blog/blog-list.astro";
+import { POSTS_PER_PAGE } from "../../config/blog";
+
+import Base from "../../layouts/Base.astro";
+
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect("/404");
+}
+
+const termResult = await getTerm("category", slug);
+if (termResult.isErr() && termResult.error instanceof NotFoundError) {
+  return Astro.redirect("/404");
+}
+
+const term = unwrapOrThrow(termResult);
+
+// ページャの総ページ数を出すために全件引く。EmDash に件数だけを返す API はない。
+const { entries } = unwrapOrThrow(
+  await getCollection("articles", {
+    status: "published",
+    where: { category: slug },
+    orderBy: { published_at: "desc" },
+  }).andTee(({ cacheHint }) => Astro.cache.set(cacheHint)),
+);
+---
+
+<Base
+  title={`#${term.label}｜ねこと白鳥-CAFÉ&BAR`}
+  description="「ねこと白鳥-CAFÉ&BAR」のイベントや最新情報を発信しています。積極的に情報を発信していきます。"
+  image="/img/cafebar/OGP-image.jpg"
+  navbarOffset={80}
+>
+  <BlogList
+    entries={entries.slice(0, POSTS_PER_PAGE)}
+    total={entries.length}
+    current={1}
+    basePath={`/category/${slug}`}
+    perPage={POSTS_PER_PAGE}
+    headingText={`#${term.label}`}
+  />
+</Base>

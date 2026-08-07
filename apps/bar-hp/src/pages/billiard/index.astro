@@ -1,0 +1,77 @@
+---
+import { getShopInfo, unwrapOrThrow } from "../../api";
+import Hero from "../../components/hero/hero.astro";
+import PageHeader from "../../components/page-header/page-header.astro";
+
+import Base from "../../layouts/Base.astro";
+
+const shopInfo = unwrapOrThrow(await getShopInfo().andTee(({ cacheHint }) => Astro.cache.set(cacheHint))).entry.data;
+---
+
+<Base
+  title="Billiard｜ねこと白鳥-CAFÉ&BAR"
+  description="「ねこと白鳥-CAFÉ&BAR」の店内ではビリヤードスペースをご用意しています。ご友人とカクテルを飲みながらお楽しみください。"
+  image="/img/cafebar/OGP-image.jpg"
+  navbarOffset={80}
+>
+  <Hero bgImg="/img/Hero/billiard.jpg" />
+
+  <div style="background: #21311F;">
+    <PageHeader
+      title={"Playing\nBilliards"}
+      subTitle="ビリヤード"
+      paragraph="広くゆったりした店内にはビリヤードスペースをご用意しています。なかにはプレイを目当てに来られる方もいらっしゃいます。喫茶&BAR「ねこと白鳥」での楽しみ方は一つではありません。ぜひご友人とカクテルを飲みながらお楽しみください。"
+    />
+
+    <div class="main-content">
+      <section style="background: #1A1A1A;">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-md-5 p-5">
+              <h2 class="text-left h2 mb-20">
+                <span class="en">Information</span><br>
+                <span class="jp">ご利用案内</span>
+              </h2>
+              <p class="text-white">
+                ¥1200/1h(1台)<br>
+                ※1 何人でご利用いただいても上記の料金です。<br>
+                ※2 料金にはキューのレンタルも含みます。<br>
+                ※3 用具の破損汚損につきましては別途ご請求となります。
+              </p>
+            </div>
+            <div class="col-md-5 p-5">
+              <div class="tel-box">
+                <a href={`tel:${shopInfo.tel_no}`}>{shopInfo.tel}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background: #21311F;">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-10 p-5">
+              <img src="/img/billiard/billiard-01.jpg" alt="ビリヤードの写真1" width="904" height="603">
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style>
+.tel-box {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ffffff;
+  text-align: center;
+  padding: 1em 2em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>

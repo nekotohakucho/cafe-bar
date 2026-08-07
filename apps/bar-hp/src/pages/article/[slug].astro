@@ -1,0 +1,270 @@
+---
+import { Image, PortableText } from "emdash/ui";
+
+import { getCollection, getEntry, NotFoundError, unwrapOrThrow } from "../../api";
+import BlogCategoryMenu from "../../components/blog/blog-category-menu.astro";
+import Hero from "../../components/hero/hero.astro";
+import { formatDate } from "../../lib/date";
+import { toPlainText } from "../../lib/portable-text";
+
+import Base from "../../layouts/Base.astro";
+
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect("/404");
+}
+
+const result = await getEntry("articles", slug).andTee(({ cacheHint }) => Astro.cache.set(cacheHint));
+
+if (result.isErr() && result.error instanceof NotFoundError) {
+  return Astro.redirect("/404");
+}
+
+const { entry } = unwrapOrThrow(result);
+
+// 前後の記事は全件リストの並びから引く。EmDash に隣接エントリを返す API はない。
+const { entries } = unwrapOrThrow(
+  await getCollection("articles", { status: "published", orderBy: { published_at: "desc" } }),
+);
+
+const index = entries.findIndex((post) => post.id === entry.id);
+const prevArticle = index >= 0 && index < entries.length - 1 ? entries[index + 1] : null;
+const nextArticle = index > 0 ? entries[index - 1] : null;
+
+const tags = entry.data.terms?.category ?? [];
+const publishedAt = entry.data.publishedAt ?? entry.data.createdAt;
+const description = toPlainText(entry.data.body).replace(/\r?\n/g, "").slice(0, 200);
+---
+
+<Base
+  title={`${entry.data.title}|ねこと白鳥Blog（沼津駅/CAFE＆BAR・スイーツ）`}
+  description={description}
+  image={entry.data.cover_image?.src ?? "/img/cafebar/OGP-image.jpg"}
+  navbarOffset={80}
+  content={{ collection: "articles", id: entry.data.id, slug: entry.id }}
+>
+  <Hero bgImg="/img/Hero/blog.jpg" />
+
+  <div class="article-root">
+    <section class="page-header">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7 col-md-9">
+            <div class="text-center">
+              <div class="text-white fw-700 article-heading">Blog</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <BlogCategoryMenu headingText="" headingClassName="" />
+        </div>
+        <div class="BlogCategoryMenu__wrapper col-lg-9 px-0 article-body-column">
+          <section class="BlogDetails blog-pg single section-padding pt-0">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col px-0">
+                  <div class="post">
+                    {entry.data.cover_image && (
+                    <div class="img">
+                      <Image image={entry.data.cover_image} alt={`${entry.data.title}のカバー画像`} />
+                    </div>
+                    )}
+                    <div class="content">
+                      <div class="container">
+                        <div class="row justify-content-center">
+                          <div class="col-lg-9 pt-60 order-2">
+                            <div class="container">
+                              <div class="row justify-content-center">
+                                <div class="col-lg-10">
+                                  <div class="cont">
+                                    <h1 class="extra-title h2">{entry.data.title}</h1>
+                                    <div class="Article_Body">
+                                      <PortableText value={entry.data.body} />
+                                    </div>
+                                    <div class="share-info">
+                                      <div class="tags">
+                                        {tags.map((tag) => (
+                                        <a href={`/category/${tag.slug}`} class="info-tag"><span>#{tag.label}</span></a>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 pt-60 px-0 order-1">
+                            <div class="container">
+                              <div class="row justify-content-center">
+                                <div class="col-lg-10">
+                                  <div class="info">
+                                    <h2 class="heading-date">Published on</h2>
+                                    <div class="info-date">
+                                      <time datetime={new Date(publishedAt).toISOString()}>
+                                        {formatDate(publishedAt)}
+                                      </time>
+                                    </div>
+                                    <h2 class="heading-category">Categories</h2>
+                                    <div>
+                                      {tags.map((tag) => (
+                                      <div>
+                                        <a href={`/category/${tag.slug}`} class="info-tag"><span>#{tag.label}</span></a>
+                                      </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="pagination">
+                      <span>
+                        {prevArticle && <a href={`/article/${prevArticle.id}`}>Prev Post</a>}
+                      </span>
+
+                      <span class="icon">
+                        <a href="/blog"><i class="fas fa-th-large"></i></a>
+                      </span>
+
+                      <span class="text-right">
+                        {nextArticle && <a href={`/article/${nextArticle.id}`}>Next Post</a>}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<style>
+.article-root {
+  background: linear-gradient(0deg, rgba(106, 65, 19, 1) 0%, rgba(192, 160, 105, 1) 100%);
+}
+
+.article-heading {
+  margin-top: -0.75em;
+  margin-bottom: -0.75em;
+  line-height: 1.25;
+  font-size: 55px;
+}
+
+.article-body-column {
+  background: #f7f7f7bf;
+}
+
+.Article_Body {
+  padding: 0 0 28px 0;
+}
+
+.Article_Body :global(h1),
+.Article_Body :global(h2),
+.Article_Body :global(h3),
+.Article_Body :global(h4),
+.Article_Body :global(h5),
+.Article_Body :global(h6) {
+  padding: 0;
+  margin: 40px 0 24px 0;
+  line-height: 1.4;
+}
+
+.Article_Body :global(h1) {
+  font-size: 2.4rem;
+}
+
+.Article_Body :global(h2) {
+  font-size: 2.2rem;
+}
+
+.Article_Body :global(h3) {
+  font-size: 2rem;
+}
+
+.Article_Body :global(h4) {
+  font-size: 1.8rem;
+}
+
+.Article_Body :global(h5) {
+  font-size: 1.6rem;
+}
+
+.Article_Body :global(h6) {
+  font-size: 1.4rem;
+}
+
+.Article_Body :global(p) {
+  margin: 0 0 12px 0;
+}
+
+.Article_Body :global(img) {
+  max-width: 100%;
+  height: auto;
+  margin: 32px auto;
+  display: block;
+}
+
+.Article_Body :global(ul),
+.Article_Body :global(ol) {
+  margin: 0;
+  padding: 0 0 16px 40px;
+}
+
+.Article_Body :global(li) {
+  margin: 0 0 4px 0;
+  padding: 0;
+}
+
+.Article_Body :global(li ul),
+.Article_Body :global(li ol) {
+  padding: 0 0 0 20px;
+}
+
+.Article_Body :global(blockquote) {
+  border-left: 4px solid #ccc;
+  padding: 0 0 0 40px;
+  margin: 0 0 20px 0;
+}
+
+.Article_Body :global(pre) {
+  background: #333;
+  color: #fff;
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 0 0 20px 0;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  overflow: auto;
+}
+
+.Article_Body :global(code) {
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: 0 4px;
+  color: #e01d5a;
+  font-size: 1.4rem;
+}
+
+.Article_Body :global(pre code) {
+  border: none;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+}
+</style>

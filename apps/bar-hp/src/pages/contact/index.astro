@@ -1,0 +1,89 @@
+---
+import { blockComponents } from "@emdash-cms/plugin-forms/astro";
+
+import { getShopInfo, unwrapOrThrow } from "../../api";
+
+import Base from "../../layouts/Base.astro";
+
+import "./contact.css";
+
+const Form = blockComponents["emdash-form"];
+
+const shopInfo = unwrapOrThrow(await getShopInfo().andTee(({ cacheHint }) => Astro.cache.set(cacheHint))).entry.data;
+---
+
+<Base
+  title="Contact｜ねこと白鳥-CAFÉ&BAR"
+  description="「ねこと白鳥-CAFÉ&BAR」のお問い合わせフォームです。ご予約、貸切、サプライズのご相談などお気軽にお問い合わせください。"
+  image="/img/cafebar/OGP-image.jpg"
+  pageName="contact"
+  navbarOffset={80}
+>
+  <div style="background: linear-gradient(0deg, rgba(106,65,19,1) 0%, rgba(192,160,105,1) 100%);">
+    <section class="page-header">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7 col-md-9">
+            <div class="text-center" style="margin-top: 140px; margin-bottom: 20px;">
+              <h1 class="text-white" style="margin-bottom: -0.75em;">Contact</h1>
+              <div style="margin-top: 2.25rem;">お問い合わせ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: none;">
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-10 p-3 p-sm-5 text-center">
+            <div class="contact-tel-card">
+              <p class="text-white sans-serif">お急ぎの方はお電話にてお問い合わせください。</p>
+              <h2>
+                <span class="h1 d-none d-md-inline">Tel : <a href={`tel:${shopInfo.tel_no}`}>{shopInfo.tel}</a></span>
+                <span class="h3 d-inline d-md-none">
+                  <a href={`tel:${shopInfo.tel_no}`}>{shopInfo.tel}</a>
+                </span>
+              </h2>
+              <p class="text-white sans-serif">
+                ※電話受付時間は{shopInfo.contact_time}
+                <br>定休日：{shopInfo.break_week_day}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-10 px-0 p-sm-5 pt-0 pb-0">
+            <Form node={{ formId: "contact-form" }} />
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-md-10 p-3 p-sm-5 pt-0 pb-100">
+            <p class="text-white sans-serif">
+              ※当店の個人情報の取り扱いについては<a
+                href="/legals/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer">プライバシーポリシー</a
+              >を参照下さい。<br>
+              ※自動返信が届いた後、2営業日経っても担当から返信が届かない場合、弊社からのメールが届いていないか、弊社へ送信内容が届いていない可能性があります。その際は、お手数ですがお電話にてお問い合わせいただきますようお願いいたします。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+p a {
+  text-decoration: underline;
+  opacity: 0.75;
+}
+
+p a:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+</style>

@@ -1,0 +1,351 @@
+---
+import { getCollection, unwrapOrThrow } from "../../api";
+import Hero from "../../components/hero/hero.astro";
+import MenuCard from "../../components/menu/menu-card.astro";
+import MenuPhoto from "../../components/menu/menu-photo.astro";
+import { DRINK_CATEGORIES } from "../../config/menu";
+
+import Base from "../../layouts/Base.astro";
+
+const { entries: menuItems } = unwrapOrThrow(
+  await getCollection("menus", { status: "published", orderBy: { order: "asc" } }).andTee(({ cacheHint }) =>
+    Astro.cache.set(cacheHint),
+  ),
+);
+
+const itemsOf = (category: string) => menuItems.filter((item) => item.data.category === category);
+---
+
+<Base
+  title="MENU｜ねこと白鳥-CAFÉ&BAR"
+  description="「ねこと白鳥-CAFÉ&BAR」ではウイスキーをはじめ、スタンダードカクテル、オリジナルカクテル、お酒を飲まれない方にはコーヒーやノンアルコールカクテル、また、サンドイッチ、キッシュ、パフェなど軽食・デザートのメニューも用意しています。"
+  image="/img/cafebar/OGP-image.jpg"
+  navbarOffset={80}
+>
+  <Hero bgImg="/img/Hero/menu.jpg" />
+
+  <div style="background: #EEE6D1;">
+    <section class="page-header">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7 col-md-9">
+            <div class="text-center">
+              <h1 class="fw-700 menu-heading">MENU</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="main-content">
+      <section class="menu-section-light text-center">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-lg-10 py-5 px-3 px-md-5">
+              <p class="h5 pb-10 text-brown">what we offer</p>
+              <h2 class="text-brown">Drinks × Foods</h2>
+              <p class="pt-35 px-md-5 text-brown">
+                アルコール類は各種ウイスキーをはじめ、スタンダードカクテル、オリジナルカクテル等様々ございますので、その日の気分でお好みのものをどうぞ。メニューにないものもバーテンダーにお申し付けください。
+                またお酒を飲まれない方にも楽しんでいただけるよう、オリジナルブレンドのコーヒーやノンアルコールカクテルもご用意しております。サンドイッチやキッシュなどの軽食やデザートもございます。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="menu-section-light">
+        <div class="container">
+          <div class="row justify-content-center align-items-center pb-70">
+            <div class="col-6 col-md-4 p-3">
+              <div class="img mb-4">
+                <div class="img mb-4 position-relative">
+                  <a href="#drinks-list" class="scroll-link menu__menu-link-button">
+                    <img src="/img/menu/menu-01.jpg" alt="写真1" width="368" height="368">
+                    <div class="menu-jump-label d-flex justify-content-center align-items-center">
+                      <div class="h2">Drinks</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-md-4 p-3">
+              <div class="img mb-4">
+                <div class="img mb-4 position-relative">
+                  <a href="#foods-list" class="scroll-link menu__menu-link-button">
+                    <img src="/img/menu/menu-02.jpg" alt="写真2" width="368" height="368">
+                    <div class="menu-jump-label d-flex justify-content-center align-items-center">
+                      <div class="h2">Foods</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-md-4 p-3">
+              <div class="img mb-4">
+                <div class="img mb-4 position-relative">
+                  <a href="#sweets-list" class="scroll-link menu__menu-link-button">
+                    <img src="/img/menu/menu-03.jpg" alt="写真3" width="368" height="368">
+                    <div class="menu-jump-label d-flex justify-content-center align-items-center">
+                      <div class="h2">Sweets</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="drinks-list" class="menu-section-dark text-center">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-lg-10 p-5 pt-100">
+              <p class="h5 pb-10 text-gold">ドリンクメニュー</p>
+              <h2 class="text-gold">Drinks</h2>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="menu-section-dark">
+        <div class="container">
+          <div class="row justify-content-center align-items-center pb-70">
+            <div class="col-6 col-md-3 p-3">
+              <MenuPhoto
+                src="/img/menu/drink-01-s.jpg"
+                alt="drink写真1"
+                width={268}
+                height={715}
+                title="スカーレット・クロサワ"
+                description="梅のリキュールを使ったオリジナルカクテル"
+              />
+            </div>
+            <div class="col-6 col-md-3 p-3">
+              <MenuPhoto
+                src="/img/menu/drink-02-s.jpg"
+                alt="drink写真2"
+                width={268}
+                height={715}
+                title="うみいろソーダ"
+                description="沼津の海をイメージしたノンアルコールカクテル"
+              />
+            </div>
+            <div class="col-6 col-md-3 p-3 d-none d-md-block">
+              <MenuPhoto
+                src="/img/menu/drink-03-s.jpg"
+                alt="drink写真3"
+                width={268}
+                height={715}
+                title="マティニ"
+                description="静岡県産オリーブを添えて"
+              />
+            </div>
+            <div class="col-6 col-md-3 p-3 d-none d-md-block">
+              <MenuPhoto
+                src="/img/menu/drink-05-s.jpg"
+                alt="drink写真4"
+                width={268}
+                height={715}
+                title="ねこパンチ"
+                description="ねこと白鳥オリジナルカクテル"
+              />
+            </div>
+          </div>
+        </div>
+
+        {DRINK_CATEGORIES.map((category) => (
+        <div class="container">
+          <div class="row justify-content-center align-items-center pb-20">
+            <div class="col p-3">
+              <h3 class="menu-category-heading text-gold">
+                <span class="menu-category-label">{category}</span>
+                <span class="menu-category-line"></span>
+              </h3>
+            </div>
+          </div>
+          <div class="row justify-content-left align-items-start px-2 pb-70">
+            {itemsOf(category).map((item) => (
+            <div class="col-6 col-md-4 p-3 p-lg-5 pb-60 position-relative wow fadeInUp" data-wow-delay=".3s">
+              <MenuCard item={item.data} addClass="type-dark" />
+            </div>
+            ))}
+          </div>
+        </div>
+        ))}
+      </section>
+
+      <section id="foods-list" class="menu-section-light text-center">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-lg-10 p-5 pt-100">
+              <p class="h5 pb-10 text-brown">軽食／おつまみなど</p>
+              <h2 class="text-brown">Foods</h2>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="menu-section-light">
+        <div class="container">
+          <div class="row justify-content-center align-items-center pb-70">
+            <div class="col-6 col-md-4 p-3">
+              <MenuPhoto
+                src="/img/menu/food-01.jpg"
+                alt="food写真1"
+                width={832}
+                height={1660}
+                title="スモークナッツ"
+                description="店内で燻製"
+              />
+            </div>
+            <div class="col-6 col-md-4 p-3">
+              <MenuPhoto
+                src="/img/menu/food-02.jpg"
+                alt="food写真2"
+                width={832}
+                height={1660}
+                title="たっぷりダブルたまごサンド"
+                description="厚焼きとたまごサラダが同時に楽しめる"
+              />
+            </div>
+            <div class="col-6 col-md-4 p-3">
+              <MenuPhoto
+                src="/img/menu/food-03.jpg"
+                alt="food写真3"
+                width={832}
+                height={1660}
+                title="ひとみさんのキッシュ"
+                description="パイ生地を使いサクサク食感"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row justify-content-left align-items-start px-2 pb-70">
+            {itemsOf("Food").map((item) => (
+            <div class="col-6 col-md-4 p-3 p-lg-5 pb-60 position-relative wow fadeInUp" data-wow-delay=".3s">
+              <MenuCard item={item.data} addClass="type-light" />
+            </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="sweets-list" class="menu-section-dark text-center">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-lg-10 p-5 pt-100">
+              <p class="h5 pb-10 text-gold">スイーツ／デザート</p>
+              <h2 class="text-gold">Sweets</h2>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="menu-section-dark">
+        <div class="container">
+          <div class="row justify-content-center align-items-center pb-70">
+            <div class="col-6 col-md-4 p-3">
+              <MenuPhoto
+                src="/img/menu/sweets-01.jpg"
+                alt="sweets写真1"
+                width={832}
+                height={1660}
+                title="ガトーショコラ"
+                description="ベリーソース添え"
+              />
+            </div>
+            <div class="col-6 col-md-4 p-3">
+              <MenuPhoto
+                src="/img/menu/sweets-02.jpg"
+                alt="sweets写真2"
+                width={832}
+                height={1660}
+                title="季節のパフェ"
+                description="季節の素材を使ったパフェ"
+              />
+            </div>
+            <div class="col-6 col-md-4 p-3">
+              <MenuPhoto
+                src="/img/menu/sweets-03.jpg"
+                alt="sweets写真3"
+                width={832}
+                height={1660}
+                title="焼き菓子"
+                description="お酒にもコーヒにも"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row justify-content-left align-items-start px-2 pb-70">
+            {itemsOf("Sweets").map((item) => (
+            <div class="col-6 col-md-4 p-3 p-lg-5 pb-60 position-relative wow fadeInUp" data-wow-delay=".3s">
+              <MenuCard item={item.data} addClass="type-dark" />
+            </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style>
+.menu-heading {
+  margin-top: -0.75em;
+  margin-bottom: 1rem;
+  color: #6f482b;
+  line-height: 1.25;
+}
+
+.menu-section-light {
+  background: #eee6d1;
+}
+
+.menu-section-dark {
+  background: #383a4e;
+}
+
+.text-brown {
+  color: #6f482b;
+}
+
+.text-gold {
+  color: #d6bc96;
+}
+
+.menu-jump-label {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: -100% 0 0 0;
+}
+
+.menu-category-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-category-label {
+  display: block;
+}
+
+.menu-category-line {
+  border-bottom: solid 1px #807368;
+  display: block;
+  height: 1px;
+  flex-grow: 1;
+  margin: 0 0 0 32px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>

@@ -1,0 +1,18 @@
+@layer theme, reset, vendor, base, page, utilities;
+
+@import "./theme.css" layer(theme);
+
+@import "bootstrap/dist/css/bootstrap.min.css" layer(vendor);
+@import "@fortawesome/fontawesome-free/css/all.min.css" layer(vendor);
+@import "ionicons/css/ionicons.min.css" layer(vendor);
+@import "pixeden-stroke-7-icon/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css" layer(vendor);
+@import "animate.css/animate.min.css" layer(vendor);
+@import "splitting/dist/splitting.css" layer(vendor);
+@import "swiper/css" layer(vendor);
+@import "swiper/css/navigation" layer(vendor);
+
+/* 移植元テンプレートのスタイル。ページごとに base / page へ移し終えたら外す */
+@import "./dark.css" layer(vendor);
+@import "./skin.css" layer(vendor);
+
+@import "./main.css" layer(base);

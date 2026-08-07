@@ -1,0 +1,98 @@
+---
+import type { ContentEntry, InferCollectionData } from "emdash";
+
+import Hero from "../hero/hero.astro";
+import ArticleCard from "./article-card.astro";
+import BlogCategoryMenu from "./blog-category-menu.astro";
+import Pagination from "./pagination.astro";
+
+interface Props {
+  entries: ContentEntry<InferCollectionData<"articles">>[];
+  total: number;
+  current: number;
+  basePath?: string;
+  perPage: number;
+  headingText?: string;
+}
+
+const { entries, total, current, basePath = "", perPage, headingText } = Astro.props;
+---
+
+<Hero bgImg="/img/Hero/blog.jpg" />
+
+<div class="blog-root">
+  <section class="page-header">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+          <div class="text-center">
+            <h1 class="text-white fw-700 blog-heading">Blog</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cafebar__blog">
+    <div class="container">
+      <div class="row">
+        <div class="cafebar__blog__menu col-lg-3">
+          <BlogCategoryMenu headingText="Categories" headingClassName="" />
+        </div>
+        <div class="cafebar__blog__list col-lg-9">
+          <section class="forCafebarTop BlogGrid blog-pg blog section-padding">
+            <div class="container">
+              <div class="posts">
+                <div class="row">
+                  {headingText && (
+                  <div class="col-lg-12"><h2 class="mb-40">{headingText}</h2></div>
+                  )}
+
+                  {entries.length === 0 && <div class="col-lg-12 mx-5">記事が存在しません</div>}
+
+                  {entries.map((entry) => (
+                  <div class="col-lg-6">
+                    <ArticleCard entry={entry} className="mb-80" />
+                  </div>
+                  ))}
+
+                  <div class="col-lg-12">
+                    <Pagination total={total} current={current} basePath={basePath} perPage={perPage} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+.blog-root {
+  background: linear-gradient(0deg, rgba(106, 65, 19, 1) 0%, rgba(192, 160, 105, 1) 100%);
+}
+
+.blog-heading {
+  margin-top: -0.75em;
+  margin-bottom: -0.75em;
+  line-height: 1.25;
+}
+
+.cafebar__blog {
+  background: linear-gradient(0deg, rgba(106, 65, 19, 1) 0%, rgba(192, 160, 105, 1) 100%);
+}
+
+.cafebar__blog__list {
+  color: #6f482b;
+  background: #f7f7f7bf;
+  padding-top: 60px;
+}
+
+@media screen and (min-width: 992px) {
+  .cafebar__blog__list {
+    margin-top: 127px;
+  }
+}
+</style>

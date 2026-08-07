@@ -1,0 +1,23 @@
+{
+  "name": "emdash-plugin-worker-mailer",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./sandbox": "./src/sandbox-entry.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "worker-mailer": "^1.2.1"
+  },
+  "peerDependencies": {
+    "emdash": ">=0.30.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0"
+  }
+}

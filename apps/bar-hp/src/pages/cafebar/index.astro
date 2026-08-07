@@ -1,0 +1,333 @@
+---
+import { ResultAsync } from "neverthrow";
+
+import { getCollection, getShopInfo, unwrapOrThrow } from "../../api";
+import ArticleCard from "../../components/blog/article-card.astro";
+import BlogCategoryMenu from "../../components/blog/blog-category-menu.astro";
+import ImageSlider from "../../components/image-slider/image-slider.astro";
+import InformationBox from "../../components/information-box.astro";
+
+import Base from "../../layouts/Base.astro";
+
+import "./cafebar.css";
+
+const [{ entries: informations }, { entries: posts }, shopInfo] = unwrapOrThrow(
+  await ResultAsync.combine([
+    getCollection("information", {
+      status: "published",
+      limit: 1,
+      orderBy: { published_at: "desc" },
+    }).andTee(({ cacheHint }) => Astro.cache.set(cacheHint)),
+    getCollection("articles", { status: "published", limit: 2, orderBy: { published_at: "desc" } }),
+    getShopInfo().map(({ entry }) => entry.data),
+  ]),
+);
+
+---
+
+<Base
+  title="ねこと白鳥（沼津駅/CAFE＆BAR・スイーツ）"
+  description="かつて静岡県沼津駅にあった昭和の名店「純喫茶・白鳥」。その面影を味わえるCAFE＆BAR「ねこと白鳥」では、夜の喫茶店として、本格的なバーとして、カジュアル・オーセンティック問わず楽しめる飲食と空間の提供をしています。"
+  image="/img/cafebar/OGP-image.jpg"
+>
+  <section class="particles cafebar__top">
+    <div>
+      <h1>
+        <div class="cafebar__top__shop-name webfont-1-500 wow splitting" data-splitting data-wow-delay="2.0s">
+          NekotoHakucho
+        </div>
+        <div class="cafebar__top__shop-service webfont-1-400 wow splitting" data-splitting data-wow-delay="2.0s">
+          CAFE&BAR
+        </div>
+      </h1>
+      <p class="cafebar__top__catchcopy sans-serif wow splitting" data-splitting data-wow-delay="2.0s">
+        夜でもやってる喫茶店 / お酒にあうスイーツ / 珈琲もあるバー
+      </p>
+      <p class="cafebar__top__bodycopy sans-serif wow splitting" data-splitting data-wow-delay="2.0s">
+        昭和の名店「純喫茶・白鳥」<br>
+        その面影を味わえる喫茶＆BAR。<br>
+        夜の喫茶店として、本格的なバーとして、<br>
+        カジュアル・オーセンティック問わず<br>
+        楽しめる飲食と空間の提供をしています。<br>
+      </p>
+    </div>
+    <div id="particles-js"></div>
+  </section>
+
+  <section class="cafebar__news">
+    <div class="cafebar__news__body container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-sm-10 py-4">
+          <h2 class="cafebar__news__heading webfont-1-500 wow fadeInDown" data-splitting data-wow-delay=".0s">News</h2>
+          <div class="cafebar__news__text sans-serif wow fadeInDown" data-splitting data-wow-delay=".5s">
+            {informations.map((information) => (
+              <InformationBox title={information.data.title} body={information.data.body} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cafebar__features py-5">
+    <div class="cafebar__features__body container-fluid">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-sm-8 col-lg-5 py-5 px-4 px-sm-0 px-lg-5 order-2 order-lg-1">
+          <div>
+            <h2 class="cafebar__features__heading wow splitting" data-splitting data-wow-delay=".0s">Features</h2>
+            <h3 class="cafebar__features__heading2 wow splitting" data-splitting data-wow-delay=".0s">お店の特徴</h3>
+          </div>
+
+          <p class="cafebar__features__text wow fadeInUp" data-splitting data-wow-delay=".4s">
+            昭和の名店「純喫茶・白鳥」。<br>
+            その面影を味わえる喫茶＆BAR「ねこと白鳥」では、夜の喫茶店として、本格的なバーとして、カジュアル・オーセンティック問わず楽しめる飲食と空間の提供をしています。
+          </p>
+          <p class="cafebar__features__text wow fadeInUp" data-splitting data-wow-delay=".8s">
+            ボックス席はゆったりと広めにレイアウト。<br>
+            ご家族やお連れ様とごゆっくりお楽しみいただけます。
+          </p>
+          <p class="cafebar__features__text wow fadeInUp" data-splitting data-wow-delay="1.2s">
+            お酒とスイーツのペアリングだけではなく、パフェを目的に来られる小さなお客さまもいらっしゃいます。
+          </p>
+          <p class="cafebar__features__text wow fadeInUp" data-splitting data-wow-delay="1.6s">
+            ・店内で水耕栽培している無農薬ハーブを使用<br>
+            ・2階にはシミュレーションゴルフもご用意しています。
+          </p>
+        </div>
+        <div class="col-12 col-lg-7 py-lg-5 order-1 order-lg-2 px-0 px-lg-3">
+          <div class="wow fadeIn" data-splitting data-wow-delay="0s">
+            <ImageSlider />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cafebar__features__bg1"></div>
+    <div class="cafebar__features__bg2"></div>
+  </section>
+
+  <section class="cafebar__info">
+    <div class="cafebar__info__body container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-sm-10 pt-50">
+          <h2 class="cafebar__info__heading webfont-1-500 wow fadeInDown" data-splitting data-wow-delay=".0s">Access</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center align-items-start">
+        <div class="col-sm-10 col-lg-5 pb-50">
+          <ul class="cafebar__info__text sans-serif wow fadeInDown" data-splitting data-wow-delay=".5s">
+            <li class="cafebar__info__text__list">
+              TEL：<a href={`tel:${shopInfo.tel_no}`}>{shopInfo.tel}</a>
+            </li>
+            <li class="cafebar__info__text__list">
+              住所：〒{shopInfo.postal_code}
+              {shopInfo.address_level1}{shopInfo.address_level2}{shopInfo.address_line1}
+              {shopInfo.address_line2}
+            </li>
+            <li class="cafebar__info__text__list">営業時間：{shopInfo.working_time}</li>
+            <li class="cafebar__info__text__list">定休日：{shopInfo.break_week_day}</li>
+            {shopInfo.seats && <li class="cafebar__info__text__list">席数：{shopInfo.seats}</li>}
+            {shopInfo.reservation && <li class="cafebar__info__text__list">予約：{shopInfo.reservation}</li>}
+            <li class="cafebar__info__text__list">
+              ※申し訳ございません、全席禁煙となっています。<br>
+              ※貸切、サプライズ等は前もってご相談ください。<br>
+              ※アレルギーのある方は予めお申し付けください。
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-10 col-lg-5 pb-50 wow fadeInDown" data-splitting data-wow-delay="1.0s">
+          <div class="google-map">
+            <iframe
+              title="ねこと白鳥 - Google Map"
+              src={shopInfo.map_embed_url}
+              width="600"
+              height="450"
+              style="border: 0; width: 100%;"
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cafebar__info__bg1 wow fadeInLeft" data-wow-delay=".6s"></div>
+    <div class="cafebar__info__bg2 wow fadeInRight" data-wow-delay=".6s"></div>
+  </section>
+
+  <section class="cafebar__stories p-2 p-sm-4">
+    <div class="cafebar__stories__body">
+      <div class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-12 py-3 py-lg-5 pb-0 px-sm-4 px-lg-5">
+            <div class="cafebar__stories__bg1">
+              <img src="/img/cafebar/stories-bg1.svg" alt="背景イメージ" width="6000" height="2512">
+            </div>
+            <div class="cafebar__stories__image-wrapper wow fadeIn" data-splitting data-wow-delay="0s">
+              <img
+                class="cafebar__stories__image"
+                src="/img/cafebar/stories-image.jpg"
+                alt="店内のイメージ2"
+                width="6000"
+                height="2449"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col-sm-10 col-lg-8 py-4 py-sm-5 px-lg-5">
+            <h2 class="cafebar__stories__heading wow fadeIn" data-wow-delay=".0s">意外な人×BAR</h2>
+            <h3 class="cafebar__stories__heading2 wow fadeIn" data-wow-delay=".4s">ねこと白鳥の楽しみ方</h3>
+            <p class="cafebar__stories__text wow fadeInUp" data-splitting data-wow-delay=".8s">
+              BARで「意外な人」とはどんな人を指すでしょうか。<br>
+              例えば高校生。未成年なのでお酒は飲めません。でも、ねこと白鳥には女子高生も夢中になるパフェがあります。<br>
+              例えば仲良しのママ友さんたち。ねこと白鳥に集まって、のんびりできるソファ席でいっぱい語り合っています。<br>
+              ほかにも、ご両親と一緒にクリームソーダを飲みにいらっしゃる女の子、ご友人とビリヤードを楽しむ方たち、ひとり静かに本を読む方、遠方から観光でいらっしゃるお客さま。ですから実のところ「意外な人」なんていないのです。ねこと白鳥はあなたの想像を超えるBARかもしれません。<br>
+            </p>
+          </div>
+          <div class="col-sm-8 col-lg-4 py-5 px-5 d-none d-lg-block">
+            <img
+              class="cafebar__stories__bg2"
+              src="/img/cafebar/stories-bg2.png"
+              alt="ねこのイメージ"
+              width="528"
+              height="546"
+            >
+          </div>
+        </div>
+      </div>
+      <div class="cafebar__stories__bg2"></div>
+    </div>
+  </section>
+
+  <section class="cafebar__menu py-md-5">
+    <div class="cafebar__menu__body container-fluid">
+      <div class="row justify-content-center align-items-center">
+        <div class="cafebar__menu__body-inner col-md-9 col-lg-7 py-5 px-5">
+          <div>
+            <h2 class="cafebar__menu__heading webfont-1-400 wow splitting" data-splitting data-wow-delay=".0s">
+              DRINKS × FOODS
+            </h2>
+            <h3 class="cafebar__menu__heading2 wow splitting" data-splitting data-wow-delay=".4s">飲食メニュー</h3>
+          </div>
+          <p class="cafebar__menu__text wow fadeInUp" data-wow-delay=".8s">
+            アルコール類は各種ウイスキーをはじめ、スタンダードカクテル、オリジナルカクテル等様々ございますので、その日の気分でお好みのものをどうぞ。メニューにないものもバーテンダーにお申し付けください。<br>
+            またお酒を飲まれない方にも楽しんでいただけるよう、オリジナルブレンドのコーヒーやノンアルコールカクテルもご用意しております。サンドイッチやキッシュなどの軽食やデザートもございます。
+          </p>
+          <div class="wow fadeInUp" data-wow-delay="1.2s">
+            <a href="/menu" class="cafebar__menu__link-button webfont-1-400 mb-30 wow fadeInUp" data-wow-delay=".4s">
+              All Menu List
+            </a><br>
+            <a href="/menu#drinks-list" class="cafebar__menu__link-button webfont-1-400 wow fadeInUp" data-wow-delay=".8s">
+              Drinks
+            </a>
+            <a href="/menu#foods-list" class="cafebar__menu__link-button webfont-1-400 wow fadeInUp" data-wow-delay="1.2s">
+              Foods
+            </a>
+            <a
+              href="/menu#sweets-list"
+              class="cafebar__menu__link-button webfont-1-400 wow fadeInUp"
+              data-wow-delay="1.6s"
+            >
+              Sweets
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cafebar__menu__bg1 wow fadeIn"></div>
+    <div class="cafebar__menu__bg2 wow fadeIn"></div>
+  </section>
+
+  <section class="cafebar__blog">
+    <div class="container-fulid">
+      <div class="row">
+        <div class="cafebar__blog__menu col-lg-3 pl-5">
+          <BlogCategoryMenu headingText="Blog" headingClassName="h1" />
+        </div>
+        <div class="cafebar__blog__list col-lg-9">
+          <div class="cafebar__blog__list__header">
+            <div class="cafebar__blog__list__heading1">Recent Posts</div>
+            <div class="cafebar__blog__list__heading2">最近の投稿</div>
+          </div>
+
+          <section class="forCafebarTop BlogGrid blog-pg blog section-padding">
+            <div class="container">
+              <div class="posts">
+                <div class="row">
+                  {posts.map((post) => (
+                    <div class="col-lg-6">
+                      <ArticleCard entry={post} />
+                    </div>
+                  ))}
+
+                  <div class="col-lg-12 text-center mt-60">
+                    <a href="/blog" class="cafebar__blog__list__link-button">もっと見る &gt;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cafebar__recomended">
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-12">
+          <div class="cafebar__recomended__header wow fadeInUp" data-wow-delay=".4s">
+            <h2 class="cafebar__recomended__heading1">Recomended</h2>
+            <div class="cafebar__recomended__heading2">おすすめコンテンツ</div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-start align-items-center pb-70">
+        <div class="col-6 col-md-4 p-3">
+          <div class="img mb-4 wow fadeInUp" data-wow-delay=".8s">
+            <div class="img mb-4 position-relative">
+              <a href={shopInfo.online_shop_url} target="_blank" rel="noopener noreferrer">
+                <div class="cafebar__recomended__image">
+                  <img src="/img/cafebar/recomended-01.jpg" alt="写真1" width="368" height="368">
+                </div>
+                <div class="cafebar__recomended__text">オンライン販売</div>
+                <div class="cafebar__recomended__borderline"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 p-3">
+          <div class="img mb-4 wow fadeInUp" data-wow-delay="1.2s">
+            <div class="img mb-4 position-relative">
+              <a href="https://www.nekohaku.com/numazubarsweets-juwale" target="_blank" rel="noopener noreferrer">
+                <div class="cafebar__recomended__image">
+                  <img src="/img/cafebar/recomended-02.jpg" alt="写真2" width="368" height="368">
+                </div>
+                <div class="cafebar__recomended__text">ケイクドジュワレ</div>
+                <div class="cafebar__recomended__borderline"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 p-3">
+          <div class="img mb-4 wow fadeInUp" data-wow-delay="1.6s">
+            <div class="img mb-4 position-relative">
+              <a href="https://www.facebook.com/ongakuyakai" target="_blank" rel="noopener noreferrer">
+                <div class="cafebar__recomended__image">
+                  <img src="/img/cafebar/recomended-03.jpg" alt="写真3" width="368" height="368">
+                </div>
+                <div class="cafebar__recomended__text">てっぽう町音楽夜会</div>
+                <div class="cafebar__recomended__borderline"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+import { tsParticles } from "tsparticles";
+import { particlesConfig } from "../../config/particle";
+
+tsParticles.load("particles-js", particlesConfig);
+</script>

@@ -1,0 +1,104 @@
+---
+import { PortableText } from "emdash/ui";
+
+import { getEntry, NotFoundError, unwrapOrThrow } from "../../api";
+
+import Base from "../../layouts/Base.astro";
+
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect("/404");
+}
+
+const result = await getEntry("legal_pages", slug).andTee(({ cacheHint }) => Astro.cache.set(cacheHint));
+
+if (result.isErr() && result.error instanceof NotFoundError) {
+  return Astro.redirect("/404");
+}
+
+const { entry } = unwrapOrThrow(result);
+---
+
+<Base
+  title={`${entry.data.title}｜ねこと白鳥-CAFÉ&BAR`}
+  navbarOffset={80}
+  noindex
+  content={{ collection: "legal_pages", id: entry.data.id, slug: entry.id }}
+>
+  <div style="background: linear-gradient(0deg, rgba(106,65,19,1) 0%, rgba(192,160,105,1) 100%);">
+    <section class="page-header">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7 col-md-9">
+            <div class="text-center" style="margin-top: 140px; margin-bottom: 20px;">
+              <h1 class="text-white">{entry.data.title}</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="legal-content">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-10 p-3 p-sm-5 pt-0 pb-100">
+            <PortableText value={entry.data.body} />
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+.legal-content {
+  font-family: sans-serif;
+  padding-top: 5rem;
+}
+
+.legal-content :global(h2),
+.legal-content :global(h3) {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 auto 0.25em;
+}
+
+.legal-content :global(p) {
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0 auto 1.5em;
+  line-height: 1.5;
+  letter-spacing: 0.075em;
+  white-space: pre-wrap;
+}
+
+.legal-content :global(ol),
+.legal-content :global(ul) {
+  margin: 0 auto 1.5em;
+  padding-left: 1.5em;
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 1.5;
+  letter-spacing: 0.075em;
+}
+
+.legal-content :global(a) {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 575px) {
+  .legal-content {
+    padding-top: 1rem;
+  }
+  .legal-content :global(h2),
+  .legal-content :global(h3) {
+    font-size: 15px;
+  }
+  .legal-content :global(p),
+  .legal-content :global(ol),
+  .legal-content :global(ul) {
+    font-size: 13px;
+  }
+}
+</style>

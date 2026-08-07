@@ -1,0 +1,84 @@
+---
+import { getShopInfo, unwrapOrThrow } from "../../api";
+import Hero from "../../components/hero/hero.astro";
+import PageHeader from "../../components/page-header/page-header.astro";
+
+import Base from "../../layouts/Base.astro";
+
+const shopInfo = unwrapOrThrow(await getShopInfo().andTee(({ cacheHint }) => Astro.cache.set(cacheHint))).entry.data;
+---
+
+<Base
+  title="Event Space Rental｜ねこと白鳥-CAFÉ&BAR"
+  description="「ねこと白鳥-CAFÉ&BAR」は音楽イベントやアート、写真、デザイン、ファッションなどの展示会、ブライダルパーティーの会場としてご活用いただけます。"
+  image="/img/cafebar/OGP-image.jpg"
+  navbarOffset={80}
+>
+  <Hero bgImg="/img/Hero/event.jpg" />
+
+  <div style="background: #383A4E;">
+    <PageHeader
+      title={"Event\nSpace Rental"}
+      subTitle="イベント・スペースレンタル"
+      paragraph="音楽イベントやアート、写真、デザイン、ファッションなどの展示会、ギャラリー会場やブライダルパーティー会場として当店をご活用いただけます。"
+    />
+
+    <div class="main-content">
+      <section style="background: #1A1A1A;">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-md-5 p-5">
+              <h2 class="text-left h2 mb-20">
+                <span class="en">Information</span><br>
+                <span class="jp">ご利用案内</span>
+              </h2>
+              <p class="text-white">
+                収容人数：50～60名<br>
+                ステージ面積：約20㎡<br>
+                ホール面積：165㎡<br>
+                料金：お問い合わせください<br>
+                ご予約は1ヶ月前にご連絡ください<br>
+              </p>
+            </div>
+            <div class="col-md-5 p-5">
+              <div class="tel-box">
+                <a href={`tel:${shopInfo.tel_no}`}>{shopInfo.tel}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background: #383A4E;">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-10 p-5">
+              <p class="text-white mb-4">第15回 てっぽう町音楽夜会 ～ saikai ～</p>
+              <div class="img mb-4">
+                <img src="/img/event/event-01.jpg" alt="写真1" width="904" height="547">
+              </div>
+              <div class="img mb-4">
+                <img src="/img/event/event-02.jpg" alt="写真2" width="904" height="393">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style>
+.tel-box {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ffffff;
+  text-align: center;
+  padding: 1em 2em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>

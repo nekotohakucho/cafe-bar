@@ -1,0 +1,31 @@
+---
+import type { InferCollectionData } from "emdash";
+
+interface Props {
+  item: InferCollectionData<"menus">;
+  addClass: string;
+}
+
+const { item, addClass } = Astro.props;
+---
+
+<div class:list={["menu__menu-title", addClass]}>{item.title}</div>
+{item.describe && <p class:list={["menu__description", addClass]}>{item.describe}</p>}
+<div class="menu-card-price-row">
+  <span class:list={["menu__menu-price-border", addClass]}></span>
+  <span class="menu-card-price-value">
+    <p class:list={["menu__menu-price", addClass]}>{item.price}</p>
+  </span>
+</div>
+
+<style>
+.menu-card-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-card-price-value {
+  display: block;
+}
+</style>

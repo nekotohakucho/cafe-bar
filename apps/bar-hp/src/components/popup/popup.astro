@@ -1,0 +1,61 @@
+---
+---
+
+<div class="popup">
+  <div class="popup-wrapper">
+    <div class="popup-content">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+.popup {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  border-radius: 8px;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: popup-in 2s ease 5s forwards;
+}
+
+@media screen and (min-width: 640px) {
+  .popup {
+    left: auto;
+    right: 20px;
+  }
+}
+
+.popup-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 10px 10px 5px;
+  border-radius: 8px;
+}
+
+.popup-content :global(img) {
+  display: block;
+  width: 375px;
+  max-width: 100%;
+  height: auto;
+}
+
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
