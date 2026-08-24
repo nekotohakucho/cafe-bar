@@ -20,17 +20,18 @@ function toApiError<D>(
   return ok(result);
 }
 
-function toEntry<D>({ entry, cacheHint }: EntryResult<D> & { entry: ContentEntry<D> }): {
+function toEntry<D>({ entry, cacheHint, isPreview }: EntryResult<D> & { entry: ContentEntry<D> }): {
   entry: ContentEntry<D>;
   cacheHint: CacheHint;
+  isPreview: boolean;
 } {
-  return { entry, cacheHint };
+  return { entry, cacheHint, isPreview };
 }
 
 export function getEntry<T extends string, D = InferCollectionData<T>>(
   collection: T,
   id: string,
-): ResultAsync<{ entry: ContentEntry<D>; cacheHint: CacheHint }, NotFoundError | ServerError> {
+): ResultAsync<{ entry: ContentEntry<D>; cacheHint: CacheHint; isPreview: boolean }, NotFoundError | ServerError> {
   return ResultAsync.fromPromise(
     getEmDashEntry<T, D>(collection, id),
     (cause) => new ServerError({ collection, id, cause }),

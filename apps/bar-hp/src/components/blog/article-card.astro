@@ -11,7 +11,7 @@ interface Props {
 
 const { entry, className } = Astro.props;
 
-const href = `/article/${entry.id}`;
+const href = `/articles/${entry.data.id}`;
 const categories = entry.data.terms?.category ?? [];
 const title = entry.data.title.length > 100 ? `${entry.data.title.slice(0, 100)}...` : entry.data.title;
 ---

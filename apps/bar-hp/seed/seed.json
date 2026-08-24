@@ -21,9 +21,10 @@
 				"drafts",
 				"revisions",
 				"preview",
-				"search"
+				"search",
+				"seo"
 			],
-			"urlPattern": "/article/{slug}",
+			"urlPattern": "/articles/{slug}",
 			"fields": [
 				{
 					"slug": "title",

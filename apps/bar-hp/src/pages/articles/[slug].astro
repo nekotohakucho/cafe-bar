@@ -22,7 +22,6 @@ if (result.isErr() && result.error instanceof NotFoundError) {
 
 const { entry } = unwrapOrThrow(result);
 
-// 前後の記事は全件リストの並びから引く。EmDash に隣接エントリを返す API はない。
 const { entries } = unwrapOrThrow(
   await getCollection("articles", { status: "published", orderBy: { published_at: "desc" } }),
 );
@@ -33,14 +32,56 @@ const nextArticle = index > 0 ? entries[index - 1] : null;
 
 const tags = entry.data.terms?.category ?? [];
 const publishedAt = entry.data.publishedAt ?? entry.data.createdAt;
-const description = toPlainText(entry.data.body).replace(/\r?\n/g, "").slice(0, 200);
+const seo = entry.data.seo;
+const defaultTitle = `${entry.data.title}|ねこと白鳥Blog（沼津駅/CAFE＆BAR・スイーツ）`;
+const defaultDescription = toPlainText(entry.data.body).replace(/\r?\n/g, "").slice(0, 200);
+
+function resolvePageTitle(): string {
+  if (seo?.title) {
+    return seo.title;
+  }
+  return defaultTitle;
+}
+
+function resolvePageDescription(): string {
+  if (seo?.description) {
+    return seo.description;
+  }
+  return defaultDescription;
+}
+
+function resolveCanonicalUrl(): string | undefined {
+  if (seo?.canonical) {
+    return seo.canonical;
+  }
+  return undefined;
+}
+
+function resolveNoindex(): boolean {
+  if (seo?.noIndex) {
+    return true;
+  }
+  return false;
+}
+
+function resolveOgImage(): string {
+  if (seo?.image) {
+    return seo.image;
+  }
+  if (entry.data.cover_image?.src) {
+    return entry.data.cover_image.src;
+  }
+  return "/img/cafebar/OGP-image.jpg";
+}
 ---
 
 <Base
-  title={`${entry.data.title}|ねこと白鳥Blog（沼津駅/CAFE＆BAR・スイーツ）`}
-  description={description}
-  image={entry.data.cover_image?.src ?? "/img/cafebar/OGP-image.jpg"}
+  title={resolvePageTitle()}
+  description={resolvePageDescription()}
+  image={resolveOgImage()}
   navbarOffset={80}
+  canonical={resolveCanonicalUrl()}
+  noindex={resolveNoindex()}
   content={{ collection: "articles", id: entry.data.id, slug: entry.id }}
 >
   <Hero bgImg="/img/Hero/blog.jpg" />
@@ -128,7 +169,7 @@ const description = toPlainText(entry.data.body).replace(/\r?\n/g, "").slice(0, 
 
                     <div class="pagination">
                       <span>
-                        {prevArticle && <a href={`/article/${prevArticle.id}`}>Prev Post</a>}
+                        {prevArticle && <a href={`/articles/${prevArticle.data.id}`}>Prev Post</a>}
                       </span>
 
                       <span class="icon">
@@ -136,7 +177,7 @@ const description = toPlainText(entry.data.body).replace(/\r?\n/g, "").slice(0, 
                       </span>
 
                       <span class="text-right">
-                        {nextArticle && <a href={`/article/${nextArticle.id}`}>Next Post</a>}
+                        {nextArticle && <a href={`/articles/${nextArticle.data.id}`}>Next Post</a>}
                       </span>
                     </div>
                   </div>
