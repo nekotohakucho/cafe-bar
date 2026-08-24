@@ -24,6 +24,6 @@
 		"enabled": true,
 	},
 	"cache": {
-		"enabled": true,
+		"enabled": false,
 	},
 }
