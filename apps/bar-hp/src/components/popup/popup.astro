@@ -19,7 +19,9 @@
   z-index: 1000;
   opacity: 0;
   transform: translateY(20px);
-  animation: popup-in 2s ease 5s forwards;
+  animation:
+    popup-in 2s ease 5s forwards,
+    popup-out 2s ease 14s forwards;
 }
 
 @media screen and (min-width: 640px) {
@@ -55,6 +57,17 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes popup-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
   }
 }
 
