@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@10.8.1",
   "scripts": {
-    "dev:bar-hp": "pnpm --filter bar-hp dev",
+    "dev": "pnpm --filter bar-hp dev",
     "build": "turbo run build",
     "build:bar-hp": "pnpm --filter bar-hp build",
     "deploy:bar-hp": "pnpm --filter bar-hp run deploy",

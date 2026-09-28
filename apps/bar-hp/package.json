@@ -21,6 +21,7 @@
     "@fortawesome/fontawesome-free": "catalog:",
     "@praha/error-factory": "catalog:",
     "emdash-plugin-worker-mailer": "workspace:*",
+    "emdash-plugin-gtm": "workspace:*",
     "animate.css": "catalog:",
     "astro": "catalog:",
     "bootstrap": "catalog:",

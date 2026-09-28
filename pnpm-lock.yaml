@@ -48,9 +48,6 @@ catalogs:
     bootstrap:
       specifier: 4.0.0
       version: 4.0.0
-    clsx:
-      specifier: ^2.1.1
-      version: 2.1.1
     emdash:
       specifier: ^0.30.0
       version: 0.30.0
@@ -131,12 +128,12 @@ importers:
       bootstrap:
         specifier: 'catalog:'
         version: 4.0.0(jquery@3.7.1)(popper.js@1.16.1)
-      clsx:
-        specifier: 'catalog:'
-        version: 2.1.1
       emdash:
         specifier: 'catalog:'
         version: 0.30.0(@astrojs/react@6.0.2(@types/node@25.5.2)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(esbuild@0.28.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(yaml@2.8.3))(@atcute/identity@2.0.2(@atcute/lexicons@2.0.3)(typescript@5.9.3))(@date-fns/tz@1.4.1)(@floating-ui/dom@1.7.6)(@tiptap/extensions@3.22.2(@tiptap/core@3.22.2(@tiptap/pm@3.22.2))(@tiptap/pm@3.22.2))(@tiptap/pm@3.22.2)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(astro@7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.5.2)(rollup@4.60.1)(yaml@2.8.3))(date-fns@4.1.0)(echarts@6.0.0)(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+      emdash-plugin-gtm:
+        specifier: workspace:*
+        version: link:../../packages/emdash-plugin-gtm
       emdash-plugin-worker-mailer:
         specifier: workspace:*
         version: link:../../packages/emdash-plugin-worker-mailer
@@ -186,6 +183,16 @@ importers:
       wrangler:
         specifier: 'catalog:'
         version: 4.118.0(@cloudflare/workers-types@4.20260405.1)
+
+  packages/emdash-plugin-gtm:
+    dependencies:
+      emdash:
+        specifier: '>=0.30.0'
+        version: 0.30.0(@astrojs/react@6.0.2(@types/node@25.5.2)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(esbuild@0.28.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(yaml@2.8.3))(@atcute/identity@2.0.2(@atcute/lexicons@2.0.3)(typescript@5.9.3))(@date-fns/tz@1.4.1)(@floating-ui/dom@1.7.6)(@tiptap/extensions@3.22.2(@tiptap/core@3.22.2(@tiptap/pm@3.22.2))(@tiptap/pm@3.22.2))(@tiptap/pm@3.22.2)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(astro@7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@25.5.2)(rollup@4.60.1)(yaml@2.8.3))(date-fns@4.1.0)(echarts@6.0.0)(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+    devDependencies:
+      typescript:
+        specifier: ^5.8.0
+        version: 5.9.3
 
   packages/emdash-plugin-worker-mailer:
     dependencies:
