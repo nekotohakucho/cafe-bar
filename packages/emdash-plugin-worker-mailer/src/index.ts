@@ -6,7 +6,7 @@ export function workerMailerPlugin(): PluginDescriptor {
     version: "0.0.1",
     format: "standard",
     entrypoint: "emdash-plugin-worker-mailer/sandbox",
-    capabilities: ["email:provide"],
+    capabilities: ["hooks.email-transport:register"],
     options: {},
     adminPages: [{ path: "/settings", label: "Worker Mailer", icon: "email" }],
     settingsSchema: {
