@@ -22,7 +22,6 @@ export default defineConfig({
       plugins: [formsPlugin(), workerMailerPlugin(), gtmPlugin()],
       sandboxed: [],
       sandboxRunner: sandbox(),
-      marketplace: "https://marketplace.emdashcms.com",
     }),
   ],
   fonts: [],
